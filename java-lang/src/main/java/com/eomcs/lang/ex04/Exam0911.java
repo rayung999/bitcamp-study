@@ -29,6 +29,8 @@ public class Exam0911 {
 
     f = i; // int(4) ==> float(4). 
     // 유효자릿수를 넘는 정수는 짤린다.
+    // int의 최소 부동 소수점은 -21억이다. 
+    // 소수점을 빼면 10자리가 되어서 8자리까지만 저장되는 float타입엔 대입을 하지 않는다.
     System.out.println(f);
 
     f = l; // long(8) ==> float(4)
