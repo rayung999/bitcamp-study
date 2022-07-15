@@ -19,8 +19,8 @@ public class App {
         case 2: BoardHandler.processDetail(); break;
         case 3: BoardHandler.processInput(); break;
         default: System.out.println("메뉴 번호가 옳지 않습니다!");
-      }
-      
+      }  
+
       displayBlankLine();
     } // while
 
