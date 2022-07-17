@@ -9,7 +9,6 @@ public class Prompt {
 
   static int inputInt() {
     String str = keyboardInput.nextLine();
-
     return Integer.parseInt(str);   // "123" ==> 123, "5" ==> 5, "ok" ==> 실행 오류
   }
 
