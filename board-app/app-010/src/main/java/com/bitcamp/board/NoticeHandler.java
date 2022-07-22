@@ -1,9 +1,9 @@
 /*
- * 게시판 메뉴 처리 클래스
+ * 게시글 메뉴 처리 클래스
  */
 package com.bitcamp.board;
 
-public class BoardHandler {
+public class NoticeHandler {
 
   static int boardCount = 0; // 저장된 게시글의 개수
 
@@ -14,7 +14,7 @@ public class BoardHandler {
 
   static void execute() {
     while (true) {
-      System.out.println("게시판:");
+      System.out.println("공지사항:");
       System.out.println("  1: 목록");
       System.out.println("  2: 상세보기");
       System.out.println("  3: 등록");
@@ -23,15 +23,15 @@ public class BoardHandler {
       System.out.println();
 
       int menuNo = Prompt.inputInt("메뉴를 선택하세요[1..5](0: 이전) ");
-      displayHeadLine();
+      displayHeadline();
 
       switch (menuNo) {
         case 0: return;
-        case 1: BoardHandler.processList(); break;
-        case 2: BoardHandler.processDetail(); break;
-        case 3: BoardHandler.processInput(); break;
-        case 4: BoardHandler.processDelete(); break;
-        case 5: BoardHandler.processUpdate(); break;
+        case 1: NoticeHandler.processList(); break;
+        case 2: NoticeHandler.processDetail(); break;
+        case 3: NoticeHandler.processInput(); break;
+        case 4: NoticeHandler.processDelete(); break;
+        case 5: NoticeHandler.processUpdate(); break;
         default: System.out.println("메뉴 번호가 옳지 않습니다!");
       }
 
@@ -39,7 +39,7 @@ public class BoardHandler {
     } // 게시판 while
   }
 
-  static void displayHeadLine() {
+  static void displayHeadline() {
     System.out.println("=========================================");
   }
 
@@ -52,7 +52,7 @@ public class BoardHandler {
     java.text.SimpleDateFormat formatter = 
         new java.text.SimpleDateFormat("yyyy-MM-dd");
 
-    System.out.println("[게시글 목록]");
+    System.out.println("[공지사항 목록]");
     System.out.println("번호 제목 조회수 작성자 등록일");
 
     for (int i = 0; i < boardCount; i++) {
@@ -70,9 +70,8 @@ public class BoardHandler {
 
   }
 
-
   static void processDetail() {
-    System.out.println("[게시글 상세보기]");
+    System.out.println("[공지사항 상세보기]");
 
     int boardNo = Prompt.inputInt("조회할 게시글 번호? ");
 
@@ -91,7 +90,6 @@ public class BoardHandler {
       return;
     }
 
-
     System.out.printf("번호: %d\n", board.no);
     System.out.printf("제목: %s\n", board.title);
     System.out.printf("내용: %s\n", board.content);
@@ -99,16 +97,20 @@ public class BoardHandler {
     System.out.printf("작성자: %s\n", board.writer);
     java.util.Date date = new java.util.Date(board.createdDate);
     System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
+
   }
 
-
   static void processInput() {
-    System.out.println("[게시글 등록]");
+    System.out.println("[공지사항 등록]");
 
-    // 배열의 크기를 초과하지 않았는지 검사한다
-    if (boardCount == SIZE) {
-      System.out.println("게시글을 더이상 저장할 수 없습니다.");
-      return;
+    // 배열의 크기를 초과하면 배열 크기를 50% 증가시킨다.
+    if (boardCount == boards.length) {
+      int newSize = boards.length + (boards.length >> 1);
+      Board[] newArray = new Board[newSize];
+      for (int i = 0; i < boards.length; i++) {
+        newArray[i] = boards[i];
+      }
+      boards = newArray;
     }
 
     Board board = new Board();
@@ -122,7 +124,7 @@ public class BoardHandler {
     board.viewCount = 0;
     board.createdDate = System.currentTimeMillis();
 
-    // 새로 만든 인스턴스 주소를 레퍼런스 배열에 저장
+    // 새로 만든 인스턴스 주소를 레퍼런스 배열에 저장한다.
     boards[boardCount] = board;
 
     boardCount++;
@@ -131,11 +133,11 @@ public class BoardHandler {
   }
 
   static void processDelete() {
-    System.out.println("[게시글 삭제]");
+    System.out.println("[공지사항 삭제]");
 
     int boardNo = Prompt.inputInt("삭제할 게시글 번호? ");
 
-    //해당 번호의 게시글이 몇번 배열에 들어 있는지 알아내기 
+    // 해당 번호의 게시글이 몇 번 배열에 들어 있는지 알아내기
     int boardIndex = -1;
     for (int i = 0; i < boardCount; i++) {
       if (boards[i].no == boardNo) {
@@ -146,7 +148,7 @@ public class BoardHandler {
 
     // 사용자가 입력한 번호에 해당하는 게시글을 못 찾았다면
     if (boardIndex == -1) {
-      System.out.println("해당 번호의 게시글이 없습니다.");
+      System.out.println("해당 번호의 게시글이 없습니다!");
       return;
     }
 
@@ -155,7 +157,7 @@ public class BoardHandler {
       boards[i - 1] = boards[i];
     }
 
-    // 게시글 개수를 1개 줄이고 맨 마지막 레퍼런스는 null로 비운다.
+    // 게시글 개수를 1개 줄이고 맨 마지막 레퍼런스는 null 로 비운다.
     boards[--boardCount] = null;
 
     System.out.println("삭제하였습니다.");
@@ -163,7 +165,7 @@ public class BoardHandler {
   }
 
   public static void processUpdate() {
-    System.out.println("[게시글 변경]");
+    System.out.println("[공지사항 변경]");
 
     int boardNo = Prompt.inputInt("변경할 게시글 번호? ");
 
@@ -195,4 +197,7 @@ public class BoardHandler {
     }
   }
 }
+
+
+
 
