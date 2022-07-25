@@ -12,7 +12,6 @@ public class MemberList extends ObjectList {
     return ++no;
   }
 
-
   @Override
   public void add(Object obj) {
     Member member = (Member) obj;

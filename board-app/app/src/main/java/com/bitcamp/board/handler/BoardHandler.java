@@ -69,8 +69,8 @@ public class BoardHandler {
     // boardList 인스턴스에 들어 있는 데이터 목록을 가져온다.
     Object[] list = this.boardList.toArray();
 
-    for (Object obj : list) { // Object obj로 수정
-      Board board = (Board) obj;  // 에러 수정 한문장 추가 
+    for (Object obj : list) {
+      Board board = (Board) obj;
       Date date = new Date(board.createdDate);
       String dateStr = formatter.format(date); 
       System.out.printf("%d\t%s\t%d\t%s\t%s\n",
