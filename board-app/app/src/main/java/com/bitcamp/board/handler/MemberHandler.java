@@ -27,18 +27,30 @@ public class MemberHandler {
         displayHeadline();
 
         switch (menuNo) {
-          case 0: return;
-          case 1: this.onList(); break;
-          case 2: this.onDetail(); break;
-          case 3: this.onInput(); break;
-          case 4: this.onDelete(); break;
-          case 5: this.onUpdate(); break;
-          default: System.out.println("메뉴 번호가 옳지 않습니다!");
+          case 0:
+            return;
+          case 1:
+            this.onList();
+            break;
+          case 2:
+            this.onDetail();
+            break;
+          case 3:
+            this.onInput();
+            break;
+          case 4:
+            this.onDelete();
+            break;
+          case 5:
+            this.onUpdate();
+            break;
+          default:
+            System.out.println("메뉴 번호가 옳지 않습니다!");
         }
 
         displayBlankLine();
 
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.printf("예외 발생: %s\n", ex.getMessage());
       }
     } // 게시판 while
@@ -49,7 +61,7 @@ public class MemberHandler {
   }
 
   private static void displayBlankLine() {
-    System.out.println(); 
+    System.out.println();
   }
 
   private void onList() {
@@ -60,13 +72,12 @@ public class MemberHandler {
 
     for (Object item : list) {
       Member member = (Member) item;
-      System.out.printf("%s\t%s\n",
-          member.email, member.name);
+      System.out.printf("%s\t%s\n", member.email, member.name);
     }
 
   }
 
-  private void onDetail() throws Throwable {
+  private void onDetail() {
     System.out.println("[회원 상세보기]");
 
     String email = Prompt.inputString("조회할 회원 이메일? ");
@@ -96,10 +107,10 @@ public class MemberHandler {
 
     this.memberList.add(member);
 
-    System.out.println("회워을 등록했습니다.");
+    System.out.println("회원을 등록했습니다.");
   }
 
-  private void onDelete() throws Throwable {
+  private void onDelete() {
     System.out.println("[회원 삭제]");
 
     String email = Prompt.inputString("삭제할 회원 이메일? ");
@@ -111,7 +122,7 @@ public class MemberHandler {
     }
   }
 
-  private void onUpdate() throws Throwable {
+  private void onUpdate() {
     System.out.println("[회원 변경]");
 
     String email = Prompt.inputString("변경할 회원 이메일? ");
@@ -134,10 +145,7 @@ public class MemberHandler {
     } else {
       System.out.println("변경 취소했습니다.");
     }
-
   }
 }
-
-
 
 

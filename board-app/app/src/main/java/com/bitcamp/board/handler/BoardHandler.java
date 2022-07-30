@@ -39,20 +39,32 @@ public class BoardHandler {
 
         displayHeadline();
 
-        // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사용한다. 
+        // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사용한다.
         switch (menuNo) {
-          case 0: return;
-          case 1: this.onList(); break;
-          case 2: this.onDetail(); break;
-          case 3: this.onInput(); break;
-          case 4: this.onDelete(); break;
-          case 5: this.onUpdate(); break;
-          default: System.out.println("메뉴 번호가 옳지 않습니다!");
+          case 0:
+            return;
+          case 1:
+            this.onList();
+            break;
+          case 2:
+            this.onDetail();
+            break;
+          case 3:
+            this.onInput();
+            break;
+          case 4:
+            this.onDelete();
+            break;
+          case 5:
+            this.onUpdate();
+            break;
+          default:
+            System.out.println("메뉴 번호가 옳지 않습니다!");
         }
 
         displayBlankLine();
 
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.printf("예외 발생: %s\n", ex.getMessage());
       }
     } // 게시판 while
@@ -78,14 +90,14 @@ public class BoardHandler {
     for (Object item : list) {
       Board board = (Board) item;
       Date date = new Date(board.createdDate);
-      String dateStr = formatter.format(date); 
-      System.out.printf("%d\t%s\t%d\t%s\t%s\n",
-          board.no, board.title, board.viewCount, board.writer, dateStr);
+      String dateStr = formatter.format(date);
+      System.out.printf("%d\t%s\t%d\t%s\t%s\n", board.no, board.title, board.viewCount,
+          board.writer, dateStr);
     }
 
   }
 
-  private void onDetail() throws Throwable {
+  private void onDetail() {
     System.out.printf("[%s 상세보기]\n", this.title);
 
     int boardNo = 0;
@@ -93,7 +105,7 @@ public class BoardHandler {
       try {
         boardNo = Prompt.inputInt("조회할 게시글 번호? ");
         break;
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.println("입력 값이 옳지 않습니다!");
       }
     }
@@ -134,7 +146,7 @@ public class BoardHandler {
     System.out.println("게시글을 등록했습니다.");
   }
 
-  private void onDelete() throws Throwable {
+  private void onDelete() {
     System.out.printf("[%s 삭제]\n", this.title);
 
     int boardNo = 0;
@@ -142,7 +154,7 @@ public class BoardHandler {
       try {
         boardNo = Prompt.inputInt("삭제할 게시글 번호? ");
         break;
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.println("입력 값이 옳지 않습니다!");
       }
     }
@@ -154,7 +166,7 @@ public class BoardHandler {
     }
   }
 
-  private void onUpdate() throws Throwable {
+  private void onUpdate() {
 
     System.out.printf("[%s 변경]\n", this.title);
 
@@ -163,7 +175,7 @@ public class BoardHandler {
       try {
         boardNo = Prompt.inputInt("변경할 게시글 번호? ");
         break;
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.println("입력 값이 옳지 않습니다!");
       }
     }
@@ -188,7 +200,5 @@ public class BoardHandler {
     }
   }
 }
-
-
 
 
