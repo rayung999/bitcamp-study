@@ -27,25 +27,13 @@ public class MemberHandler {
         displayHeadline();
 
         switch (menuNo) {
-          case 0:
-            return;
-          case 1:
-            this.onList();
-            break;
-          case 2:
-            this.onDetail();
-            break;
-          case 3:
-            this.onInput();
-            break;
-          case 4:
-            this.onDelete();
-            break;
-          case 5:
-            this.onUpdate();
-            break;
-          default:
-            System.out.println("메뉴 번호가 옳지 않습니다!");
+          case 0: return;
+          case 1: this.onList(); break;
+          case 2: this.onDetail(); break;
+          case 3: this.onInput(); break;
+          case 4: this.onDelete(); break;
+          case 5: this.onUpdate(); break;
+          default: System.out.println("메뉴 번호가 옳지 않습니다!");
         }
 
         displayBlankLine();
@@ -61,7 +49,7 @@ public class MemberHandler {
   }
 
   private static void displayBlankLine() {
-    System.out.println();
+    System.out.println(); 
   }
 
   private void onList() {
@@ -71,7 +59,8 @@ public class MemberHandler {
     Member[] members = this.memberDao.findAll();
 
     for (Member member : members) {
-      System.out.printf("%s\t%s\n", member.email, member.name);
+      System.out.printf("%s\t%s\n",
+          member.email, member.name);
     }
 
   }
@@ -146,5 +135,7 @@ public class MemberHandler {
     }
   }
 }
+
+
 
 

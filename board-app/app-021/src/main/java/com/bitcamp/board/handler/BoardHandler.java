@@ -39,27 +39,15 @@ public class BoardHandler {
 
         displayHeadline();
 
-        // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사용한다.
+        // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사용한다. 
         switch (menuNo) {
-          case 0:
-            return;
-          case 1:
-            this.onList();
-            break;
-          case 2:
-            this.onDetail();
-            break;
-          case 3:
-            this.onInput();
-            break;
-          case 4:
-            this.onDelete();
-            break;
-          case 5:
-            this.onUpdate();
-            break;
-          default:
-            System.out.println("메뉴 번호가 옳지 않습니다!");
+          case 0: return;
+          case 1: this.onList(); break;
+          case 2: this.onDetail(); break;
+          case 3: this.onInput(); break;
+          case 4: this.onDelete(); break;
+          case 5: this.onUpdate(); break;
+          default: System.out.println("메뉴 번호가 옳지 않습니다!");
         }
 
         displayBlankLine();
@@ -88,9 +76,9 @@ public class BoardHandler {
 
     for (Board board : boards) {
       Date date = new Date(board.createdDate);
-      String dateStr = formatter.format(date);
-      System.out.printf("%d\t%s\t%d\t%s\t%s\n", board.no, board.title, board.viewCount,
-          board.writer, dateStr);
+      String dateStr = formatter.format(date); 
+      System.out.printf("%d\t%s\t%d\t%s\t%s\n",
+          board.no, board.title, board.viewCount, board.writer, dateStr);
     }
 
   }
@@ -198,5 +186,7 @@ public class BoardHandler {
     }
   }
 }
+
+
 
 
