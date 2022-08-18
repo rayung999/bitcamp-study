@@ -1,30 +1,41 @@
-/*
- * 게시판 관리 애플리케이션 비트캠프-20220704
- */
 package com.bitcamp.board;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 import java.util.Stack;
 import com.bitcamp.board.handler.BoardHandler;
 import com.bitcamp.board.handler.MemberHandler;
 import com.bitcamp.handler.Handler;
 import com.bitcamp.util.Prompt;
 
-public class App {
+public class ClientApp {
 
   // breadcrumb 메뉴를 저장할 스택을 준비
   public static Stack<String> breadcrumbMenu = new Stack<>();
 
   public static void main(String[] args) {
-    try {
+    System.out.println("[게시글 관리 클라이언트]");
+
+    try (
+        // 네트워크 준비
+        // => 정상적으로 연결되었으면 Socket 객체를 리턴한다.
+        Socket socket = new Socket("127.0.0.1", 8888);
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        DataInputStream in = new DataInputStream(socket.getInputStream());) {
+
+      System.out.println("연결되었음!");
+
       welcome();
 
       // 핸들러를 담을 레퍼런스 배열을 준비한다.
-      Handler[] handlers = new Handler[] {new BoardHandler("board.json"), // 게시판
-          new BoardHandler("reading.json"), // 독서록
-          new BoardHandler("visit.json"), // 방명록
-          new BoardHandler("notice.json"), // 공지사항
-          new BoardHandler("daily.json"), // 일기장
-          new MemberHandler("member.json") // 회원
+      Handler[] handlers = new Handler[] {
+          new BoardHandler("board", in, out), // 게시판
+          new BoardHandler("reading", in, out), // 독서록
+          new BoardHandler("visit", in, out), // 방명록
+          new BoardHandler("notice", in, out), // 공지사항
+          new BoardHandler("daily", in, out), // 일기장
+          new MemberHandler("member", in, out) // 회원
       };
 
       // "메인" 메뉴의 이름을 스택에 등록한다.
@@ -47,6 +58,7 @@ public class App {
             continue; // while 문의 조건 검사로 보낸다.
 
           } else if (mainMenuNo == 0) {
+            out.writeUTF("exit");
             break loop;
           }
 
@@ -64,21 +76,16 @@ public class App {
 
 
       } // while
-
       Prompt.close();
 
+      System.out.println("연결을 끊었음!");
+
     } catch (Exception e) {
-      // 더이상 애플리케이션을 계속 실행할 수 없는 상황일 때,
-      // (main() 메서드까지 예외 보고가 올라 왔다는 것은 계속 실행할 수 없는 상태라는 뜻이다)
-      // 사용자에게 간단한 예외 메시지를 남기고
-      // 필요하다면 로그 파일에 오류 기록을 남기고,
-      // 실행을 종료한다.
-      System.out.printf("실행 오류 발생! - %s:%s\n", e.getClass().getName(),
-          e.getMessage() != null ? e.getMessage() : "");
+      e.printStackTrace();
     }
 
-    System.out.println("안녕히 가세요!");
-  } // main
+    System.out.println("종료!");
+  }
 
   static void welcome() {
     System.out.println("[게시판 애플리케이션]");
@@ -95,7 +102,7 @@ public class App {
 
   protected static void printTitle() {
     StringBuilder builder = new StringBuilder();
-    for (String title : App.breadcrumbMenu) {
+    for (String title : breadcrumbMenu) {
       if (!builder.isEmpty()) {
         builder.append(" > ");
       }
@@ -104,5 +111,3 @@ public class App {
     System.out.printf("%s:\n", builder.toString());
   }
 }
-
-

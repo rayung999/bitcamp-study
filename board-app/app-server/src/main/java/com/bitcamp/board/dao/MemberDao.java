@@ -30,7 +30,7 @@ public class MemberDao {
         strBuilder.append(str);
       }
 
-      // StringBuilder에 보관된 JSON 문자열을 가지고 Member[] 을 생성한다
+      // StringBuilder에 보관된 JSON 문자열을 가지고 Member[] 을 생성한다. 
       Member[] arr = new Gson().fromJson(strBuilder.toString(), Member[].class);
 
       // Member[] 배열의 저장된 객체를 List 로 옮긴다.
@@ -61,6 +61,17 @@ public class MemberDao {
     return null;
   }
 
+  public boolean update(Member member) {
+    for (int i = 0; i < list.size(); i++) {
+      Member m = list.get(i);
+      if (m.email.equals(member.email)) {
+        list.set(i, member);
+        return true;
+      }
+    }
+    return false;
+  }
+
   public boolean delete(String email) {
     for (int i = 0; i < list.size(); i++) {
       Member member = list.get(i);
@@ -78,10 +89,22 @@ public class MemberDao {
 
     int i = 0;
     while (iterator.hasNext()) {
-      arr[i++] = iterator.next();
+      arr[i++] = iterator.next(); 
     }
     return arr;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 

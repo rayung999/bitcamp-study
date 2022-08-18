@@ -31,13 +31,16 @@ public class BoardDao {
         strBuilder.append(str);
       }
 
-      // StringBuilder에 보관된 JSON 문자열을 가지고 Board[] 을 생성한다.
+      // StringBuilder에 보관된 JSON 문자열을 가지고 Board[] 을 생성한다. 
       Board[] arr = new Gson().fromJson(strBuilder.toString(), Board[].class);
 
       // Board[] 배열의 저장된 객체를 List 로 옮긴다.
       for (int i = 0; i < arr.length; i++) {
         list.add(arr[i]);
       }
+
+      // 게시글 데이터를 로딩한 후 마지막 게시글 번호를 설정해 둔다.
+      boardNo = arr[arr.length - 1].no;
     }
   }
 
@@ -51,6 +54,17 @@ public class BoardDao {
   public void insert(Board board) {
     board.no = nextNo();
     list.add(board);
+  }
+
+  public boolean update(Board board) {
+    for (int i = 0; i < list.size(); i++) {
+      Board b = list.get(i);
+      if (b.no == board.no) {
+        list.set(i, board);
+        return true;
+      }
+    }
+    return false;
   }
 
   public Board findByNo(int boardNo) {
@@ -92,5 +106,17 @@ public class BoardDao {
     return ++boardNo;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
