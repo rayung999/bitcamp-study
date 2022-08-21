@@ -1,8 +1,8 @@
 package com.eomcs.quiz.ex01.sol;
 // copyright by codefights.com
 // 
-// 양의 정수 배열이 주어지고 찾아야 할 정수 값이 주어질 때,
-// 해당 값 이전의 항목들 중에서 짝수의 개수를 알아내라! 
+// 양의 정수 배열에서 지정된 정수 값을 찾을 때,
+// 첫 번째 찾은 값 이전의 항목들 중에서 짝수의 개수를 알아내라! 
 // 배열에 해당 값이 없으면 -1을 리턴한다. 
 //
 // 형식:
@@ -36,6 +36,7 @@ public class Test27 {
 
   public static void main(String[] args) {
     System.out.println(evenNumbersBeforeFixed(new int[] {1, 4, 2, 6, 3, 2}, 6) == 2);
+    System.out.println(evenNumbersBeforeFixed(new int[] {1, 4, 2, 6, 3, 2}, 7) == -1);
   }
 
   static int evenNumbersBeforeFixed(int[] sequence, int fixedElement) {
