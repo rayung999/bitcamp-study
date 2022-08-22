@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+// Buffered 를 쓰는 이유 = 개빠름
 public class Receiver5 {
 
   public static void main(String[] args) throws Exception {
