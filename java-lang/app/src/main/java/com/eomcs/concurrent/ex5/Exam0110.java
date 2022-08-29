@@ -18,10 +18,10 @@ public class Exam0110 {
       }
       delay();
       values[size] = value;
-      delay();
+      delay(); // cpu를 뺏겨 버렸기 때문에 size를 증가 시키지 못했다.
       size = size + 1;
       delay();
-    }
+    } 
 
     public void print() {
       for (int i = 0; i < size; i++) {

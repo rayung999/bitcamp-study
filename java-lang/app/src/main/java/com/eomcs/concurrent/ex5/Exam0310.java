@@ -11,7 +11,7 @@ public class Exam0310 {
   }
 
   // 비동기 실행
-  // - 여러 스레드가 동시에 진입 가능!
+  // - 여러 스레드가 동시에 진입 가능하게 허락하는 코드
   static void print1(String threadName, Counter counter) {
     System.out.printf("[%s] 출력 시작 ----------\n", threadName);
 
@@ -23,7 +23,7 @@ public class Exam0310 {
   }
 
   // 동기 실행
-  // - 한 번에 한 스레드만 진입 가능!
+  // - 한 번에 한 스레드만 진입 가능하게 허락하는 코드
   synchronized static void print2(String threadName, Counter counter) {
     System.out.printf("[%s] 출력 시작 ----------\n", threadName);
 
@@ -35,11 +35,11 @@ public class Exam0310 {
   }
 
   // 동기화 블록
-  // - 한 번에 한 스레드만 진입 가능!
+  // - 한 번에 한 스레드만 진입 가능하게 허락하는 코드
   static void print3(String threadName, Counter counter) {
-    System.out.printf("[%s] 출력 시작 ----------\n", threadName);
+    System.out.printf("[%s] 출력 시작 ----------\n", threadName); // 여기까지는 스레드가 동시 진입
 
-    synchronized (counter) {
+    synchronized (counter) { // 블록에 synchronized를 붙임 -> counter에서는 동시에 접근할 수 없다.
       System.out.printf("[%s] $$$$$$$$$$$$$$$$$$$$$$\n", threadName);
       for (int i  = 0; i < 1000; i++) {
         System.out.printf("%s ==> %d\n", threadName, i);
@@ -66,9 +66,9 @@ public class Exam0310 {
   public static void main(String[] args) throws Exception {
     Counter counter = new Counter(1000);
 
-    Worker w1 = new Worker("홍길동", counter);
-    Worker w2 = new Worker("%%%%%%%", counter);
-    Worker w3 = new Worker("kim", counter);
+    Worker w1 = new Worker("**홍길동", counter);
+    Worker w2 = new Worker("임꺽정---->", counter);
+    Worker w3 = new Worker("유%관%순", counter);
 
     w1.start();
     w2.start();
