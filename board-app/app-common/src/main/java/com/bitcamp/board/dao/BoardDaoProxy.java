@@ -6,7 +6,7 @@ import java.net.Socket;
 import com.bitcamp.board.domain.Board;
 import com.google.gson.Gson;
 
-// 게시글 목록을 관리하는 역할
+// BoardDao와 통신을 담당할 대행 객체
 //
 public class BoardDaoProxy {
 
@@ -24,12 +24,14 @@ public class BoardDaoProxy {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         DataInputStream in = new DataInputStream(socket.getInputStream());) {
+
       out.writeUTF(dataName);
       out.writeUTF("insert");
       out.writeUTF(new Gson().toJson(board));
       return in.readUTF().equals("success");
     }
   }
+
   public boolean update(Board board) throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -40,10 +42,12 @@ public class BoardDaoProxy {
       return in.readUTF().equals("success");
     }
   }
+
   public Board findByNo(int boardNo) throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         DataInputStream in = new DataInputStream(socket.getInputStream());) {
+
       out.writeUTF(dataName);
       out.writeUTF("findByNo");
       out.writeInt(boardNo);
@@ -54,16 +58,19 @@ public class BoardDaoProxy {
       return new Gson().fromJson(in.readUTF(), Board.class);
     }
   }
+
   public boolean delete(int boardNo) throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         DataInputStream in = new DataInputStream(socket.getInputStream());) {
+
       out.writeUTF(dataName);
       out.writeUTF("delete");
       out.writeInt(boardNo);
       return in.readUTF().equals("success");
     }
   }
+
   public Board[] findAll() throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -78,6 +85,7 @@ public class BoardDaoProxy {
     }
   }
 }
+
 
 
 

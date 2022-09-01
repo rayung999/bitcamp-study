@@ -1,9 +1,6 @@
 /*
  * 회원 메뉴 처리 클래스
  */
-/*
- * 회원 메뉴 처리 클래스
- */
 package com.bitcamp.board.handler;
 
 import java.util.Date;
@@ -120,3 +117,7 @@ public class MemberHandler extends AbstractHandler {
     }
   }
 }
+
+
+
+

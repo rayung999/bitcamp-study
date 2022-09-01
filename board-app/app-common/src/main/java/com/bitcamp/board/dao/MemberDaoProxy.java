@@ -27,10 +27,10 @@ public class MemberDaoProxy {
       out.writeUTF(dataName);
       out.writeUTF("insert");
       out.writeUTF(new Gson().toJson(member));
-
       return in.readUTF().equals("success");
     }
   }
+
   public Member findByEmail(String email) throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -45,6 +45,7 @@ public class MemberDaoProxy {
       return new Gson().fromJson(in.readUTF(), Member.class);
     }
   }
+
   public boolean update(Member member) throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -56,6 +57,7 @@ public class MemberDaoProxy {
       return in.readUTF().equals("success");
     }
   }
+
   public boolean delete(String email) throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -67,6 +69,7 @@ public class MemberDaoProxy {
       return in.readUTF().equals("success");
     }
   }
+
   public Member[] findAll() throws Exception {
     try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -81,3 +84,17 @@ public class MemberDaoProxy {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

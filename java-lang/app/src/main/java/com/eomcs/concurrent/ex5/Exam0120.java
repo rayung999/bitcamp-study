@@ -63,7 +63,7 @@ public class Exam0120 {
       for (int i = 0; i < 20; i++) {
         list.add(value);
 
-        // add() 호출 후 다른 스레드에게 CPU 사용권을 뻇길 기회를 만들자! 
+        // add() 호출 후 다른 스레드에게 CPU 사용권을 뺏길 기회를 만들자!
         int count = (int)(Math.random() * 1000);
         for (int x = 0; x < count; x++) {
           Math.atan(34.1234);

@@ -47,7 +47,6 @@ public class BoardHandler extends AbstractHandler {
 
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     System.out.println("번호 제목 조회수 작성자 등록일");
-
     for (Board board : boards) {
       Date date = new Date(board.createdDate);
       String dateStr = formatter.format(date); 
@@ -130,7 +129,6 @@ public class BoardHandler extends AbstractHandler {
     }
 
     Board board = boardDao.findByNo(boardNo);
-
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다!");
       return;

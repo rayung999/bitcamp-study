@@ -1,4 +1,4 @@
-package com.eomcs.spring.ioc.ex13.a;
+package com.eomcs.spring.ioc.ex13.a.step1;
 
 import org.springframework.stereotype.Component;
 
@@ -10,13 +10,5 @@ public class X {
 
   public void m1() {
     System.out.println("X.m1()");
-  }
-
-  public void m2() {
-    System.out.println("X.m2()");
-  }
-
-  public void m3() {
-    System.out.println("X.m3()");
   }
 }

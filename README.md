@@ -244,6 +244,7 @@ export PATH=${JAVA_HOME}/bin:$PATH
   - 033. 입출력 API를 사용하여 데이터를 파일로 저장하기: 바이너리 저장(계속)
   - 034. Primitive 타입 및 String 타입 데이터를 가공하여 입출력하는 기능을 객체화하기
 - FileOutputStream/FileInputStream 사용법(board-app: com.bitcamp.study.*)
+- DataOutputStream/DataInputStream 사용법(board-app: com.bitcamp.study.*)
 
 ### 28일(8/10) 
 - 아침 특강(com.eomcs.quiz)
@@ -252,8 +253,115 @@ export PATH=${JAVA_HOME}/bin:$PATH
 - board-app 프로젝트 수행 
   - 035. 자바에서 제공하는 데코레이터를 사용하기
   - 036. 인스턴스를 통째로 입출력하기: 객체 직렬화
-- FileOutputStream/FileInputStream 사용법(board-app: com.bitcamp.study.*)
+  - 037. 인스턴스를 텍스트 형식으로 입출력하기: FileReader/FileWriter
+  - 038. 리팩토링: Factory Method 패턴, Information Expert 패턴
+- ObjectOutputStream/ObjectInputStream 사용법
 
+### 29일(8/11) 
+- 아침 특강(com.eomcs.quiz)
+  - ex01.Test25: 
+  - ex01.Test26: 
+- board-app 프로젝트 수행 
+  - 039. JSON 형식으로 데이터 입출력하기: Gson 라이브러리 사용
+  - 040. 네트워킹을 이용한 파일 공유: client/server app. 아키텍처로 전환
+
+### 교실 이전(8/12) 
+
+### 30일(8/16) 
+
+- board-app 프로젝트 수행 
+  - 040. 네트워킹을 이용한 파일 공유: client/server app. 아키텍처로 전환(계속)
+- 네트워크 프로그래밍 개요
+  - ServerSocket, Socket 클래스 사용법
+  - IP 주소와 포트 번호
+
+### 31일(8/17) 
+
+- 아침 특강(com.eomcs.quiz)
+  - ex01.Test27: 
+  - ex01.Test28: 
+- board-app 프로젝트 수행 
+  - 040. 네트워킹을 이용한 파일 공유: client/server app. 아키텍처로 전환(계속)
+- 컬렉션 API 사용법(com.eomcs.basic.ex03.*)
+
+### 32일(8/18) 
+
+- board-app 프로젝트 수행 
+  - 041. Client/Server 리팩토링
+    - Hashtable, ArrayList 활용
+    - 클라이언트 연결을 순차적으로 처리
+- 컬렉션 API 사용법(com.eomcs.basic.ex03.*)(계속)
+
+### 33일(8/19) 
+
+- 아침 특강(com.eomcs.quiz)
+  - ex01.Test30: 
+- board-app 프로젝트 수행 
+  - 042. Proxy 패턴을 이용한 네트워킹 코드 캡슐화
+  - 043. Client/Server 공통 코드를 라이브러리 프로젝트로 분리하기
+  - 044. 통신 방식을 Stateful에서 Stateless로 변경하기
+- Proxy 패턴의 이해와 활용법
+- Connection-Oriented 통신과 Connectionless 통신 비교
+- Stateful 통신 방식과 Stateless 통신 방식 비교
+
+### 34일(8/22) 
+
+- 아침 특강(com.eomcs.quiz)
+  - ex01.Test31:
+  - ex02.Test12: 
+- board-app 프로젝트 수행 
+  - 045. Thread를 이용한 멀티 태스킹 구현하기: 동시 요청 처리하기
+- 네트워킹 사용법(com.eomcs.net.*)
+
+### 35일(8/23) 
+
+- 아침 특강(com.eomcs.quiz)
+  - ex01.Test32:
+- 네트워킹 사용법(com.eomcs.net.*)(계속)
+
+### 36일(8/24) 
+
+- 아침 특강(com.eomcs.quiz)
+  - ex01.Test33, 34, 35, 36:
+- 네트워킹 사용법(com.eomcs.net.*)(계속)
+- 스레드 사용법(com.eomcs.concurrent.*)
+  - 멀티 태스킹 기법: 멀티 프로세싱, 멀티 스레딩
+  - CPU 스케줄링, 컨텍스트 스위칭 
+  
+### 37일(8/25) 
+
+- 아침 특강(com.eomcs.quiz)
+  - 코딩 퀴즈는 백준 코딩 테스트로 대체한다.
+- 스레드 사용법(com.eomcs.concurrent.*)(계속)
+  - Thread, Runnable 사용법
+  - 중첩 클래스를 다루는 방법
+- board-app 프로젝트 수행 
+  - 045. Thread를 이용한 멀티 태스킹 구현하기: 동시 요청 처리하기(계속)
+    - 리팩토링: 중첩 클래스 활용
+
+### 38일(8/26) 
+
+- 스레드 사용법(com.eomcs.concurrent.*)(계속)
+  - 스레드 라이프사이클 
+  - 크리티컬 섹션과 스레드 안전
+  - 뮤텍스와 세마포어
+  - 자바에서 뮤텍스를 다루는 방법
+- DBMS 사용법
+  - Database와 DBMS
+  - MariaDB 설치와 설정
+  
+### 39일(8/29) 
+
+- SQL 사용법
+  - DDL 사용법
+- DBMS 사용법
+  - 사용자 등록, 데이터베이스 생성, 권한 설정
+
+### 40일(8/30) 
+
+- SQL 사용법
+  - DDL 사용법(계속)
+  - DML 사용법
 
 ## 구글 미트
 https://meet.google.com/uou-bbtj-qzf

@@ -136,16 +136,45 @@
   - 데이터 조회 규격을 Iterator 인터페이스로 정의한다.
   - List 구현체에서 Iterator 규격을 따르도록 변경한다.
   - 객체 목록을 다룰 때 Iterator 구현체를 사용한다.
+  
 ### 032. 기존 List 구현체를 자바 컬렉션 API로 교체하기: java.util 패키지의 클래스 사용
   - 기존의 List 관련 클래스를 모두 자바 컬렉션 API로 변환한다
-### 033. 입출력 API를 사용하여 데이터를 파일로 저장하기: 바이너리 저장
+### 033. 파일 API를 사용하여 데이터를 바이너리 형식으로 입출력하기: FileInputStream/FileOutputStream
   - 입출력 스트림 API를 사용하여 데이터를 파일로 저장하고 읽는 방법
   - 바이너리 형식으로 데이터를 입출력하는 방법
-### 034. Primitive 타입 및 String 타입 데이터를 가공하여 입출력하는 기능을 객체화하기
+### 034. Primitive 타입 및 String 타입 데이터를 입출력하는 기능을 캡슐화하기: DataInputStream/DataOutputStream
   - Primitive 타입과 String 타입의 값을 바이트 또는 바이트 배열로 가공하는 기능을 객체화 한다.
   - 이렇게 중간에서 가공해주는 클래스를 사용하여 입출력을 수행한다.
-### 035. 자바에서 제공하는 데코레이터를 사용하기
+### 035. 자바에서 제공하는 I/O Stream API 사용하기: java.io.*
   - java.io 패키지의 스트리밍 API를 사용하여 Primitive type, String type 값을 입출력한다.
-### 036. 인스턴스를 통째로 입출력하기: 객체 직렬화
+### 036. 인스턴스를 통째로 입출력하기(객체 직렬화): ObjectInputStream/ObjectOutputStream
   - 인스턴스 필드의 값을 통째로 입출력하는 방법
-  
+### 037. 인스턴스를 텍스트 형식으로 입출력하기: FileReader/FileWriter
+  - 텍스트로 데이터를 입출력하는 방법
+### 038. 리팩토링: Factory Method 패턴, Information Expert 패턴
+  - CSV 데이터를 가지고 Board 객체를 생성하는 일은 Board 클래스에 맡긴다.
+    - 객체 생성은 메서드를 통해 수행한다. => Factory Method 패턴
+  - Board 객체의 값을 CSV 형식으로 변환하는 일은 Board 클래스에 맡긴다.
+    - CSV 데이터 생성은 Board의 메서드를 통해 수행한다. => Information Expert 패턴
+### 039. JSON 형식으로 데이터 입출력하기: Gson 라이브러리 사용
+  - JSON 형식으로 데이터를 읽고 쓰는 법
+  - Google 에서 제공해주는 JSON 라이브러리인 Gson 사용법
+### 040. 네트워킹을 이용한 파일 공유: client/server app. 아키텍처로 전환
+  - 네트워크를 통해 파일을 공유하고 데이터 입출력을 처리하는 방법
+    - 데이터를 파일에 저장하고 꺼내는 기능을 별도의 애플리케이션으로 분리한다.
+    - 기존의 프로그램은 네트워크를 통해 파일 서버에 접속하여 데이터 입출력을 처리한다.
+### 041. Client/Server 리팩토링
+  - HashMap 사용법
+  - 순차적으로 여러 클라이언트 요청을 처리하는 방법
+### 042. Proxy 패턴을 이용한 네트워킹 코드 캡슐화
+  - Proxy 설계 패턴을 활용하는 방법
+### 043. Client/Server 공통 코드를 라이브러리 프로젝트로 분리하기
+  - 서브 프로젝트를 분리하여 공유하는 방법
+### 044. 통신 방식을 Stateful에서 Stateless로 변경하기
+  - Stateful과 Stateless 방식의 차이점 이해
+  - Stateless 방식으로 통신하는 방법
+### 045. Thread를 이용한 멀티 태스킹 구현하기: 동시 요청 처리하기
+  - Thread로 멀티 태스킹을 구현하는 방법
+  - 멀티 태스킹의 이해
+  - 멀티 프로세스와 멀티 스레드의 구동 원리 이해
+
