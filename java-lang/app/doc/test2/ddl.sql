@@ -44,8 +44,8 @@ DROP TABLE IF EXISTS ems_member RESTRICT;
 CREATE TABLE ems_application (
   apno  INTEGER  NOT NULL COMMENT '수강신청번호', -- 수강신청번호
   lno   INTEGER  NOT NULL COMMENT '강의번호', -- 강의번호
-  cdate DATETIME NOT NULL COMMENT '신청일', -- 신청일
-  mno   INTEGER  NOT NULL COMMENT '회원번호' -- 회원번호
+  mno   INTEGER  NOT NULL COMMENT '회원번호', -- 회원번호
+  cdate DATETIME NOT NULL COMMENT '신청일' -- 신청일
 )
 COMMENT '수강신청';
 
@@ -89,7 +89,7 @@ CREATE TABLE ems_teacher (
   account  VARCHAR(20)  NOT NULL COMMENT '계좌번호', -- 계좌번호
   hour_pay INTEGER      NOT NULL COMMENT '시강료', -- 시강료
   ano      INTEGER      NOT NULL COMMENT '기본주소번호', -- 기본주소번호
-  det_addr VARCHAR(255) NOT NULL COMMENT '상세주소 ' -- 상세주소 
+  det_addr VARCHAR(255) NOT NULL COMMENT '상세주소' -- 상세주소
 )
 COMMENT '강사';
 
