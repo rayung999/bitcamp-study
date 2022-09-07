@@ -1,14 +1,12 @@
 package com.bitcamp.board.dao;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import com.bitcamp.board.domain.Member;
-import com.google.gson.Gson;
 
 public class MariaDBMemberDao {
 
@@ -69,32 +67,44 @@ public class MariaDBMemberDao {
     }
   }
 
-  public boolean delete(String email) throws Exception {
-    try (Socket socket = new Socket(ip, port);
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-        DataInputStream in = new DataInputStream(socket.getInputStream());) {
-      out.writeUTF(dataName);
-      out.writeUTF("delete");
-      out.writeUTF(email);
+  public int delete(int no) throws Exception {
+    try (Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb","study","1111");
+        PreparedStatement pstmt1 = con.prepareStatement("delete from app_board where mno=?");
+        PreparedStatement pstmt2 = con.prepareStatement("delete from app_member where mno=?")) { // 값을 넣을 자리를 인-파라미터로 표시
 
-      return in.readUTF().equals("success");
+      // 회원이 작성한 게시글을 삭제한다.
+      pstmt1.setInt(1, no);
+      pstmt1.executeUpdate();
+
+      // 회원을 삭제한다.
+      pstmt2.setInt(1, no);
+      return pstmt2.executeUpdate();
     }
   }
 
-  public Member[] findAll() throws Exception {
-    try (Socket socket = new Socket(ip, port);
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-        DataInputStream in = new DataInputStream(socket.getInputStream());) {
-      out.writeUTF(dataName);
-      out.writeUTF("findAll");
+  public List<Member> findAll() throws Exception {
+    try (Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb","study","1111");
+        PreparedStatement pstmt = con.prepareStatement("select mno,name,email,cdt from app_member");
+        ResultSet rs = pstmt.executeQuery()) {
 
-      if (in.readUTF().equals("fail")) {
-        return null;
+      ArrayList<Member> list = new ArrayList<>();
+
+      while (rs.next()) {
+        Member member = new Member();
+        member.no = rs.getInt("mno");
+        member.name = rs.getString("name");
+        member.email = rs.getString("email");
+
+        list.add(member);
       }
-      return new Gson().fromJson(in.readUTF(), Member[].class);
+
+      return list;
     }
   }
 }
+
 
 
 

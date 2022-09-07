@@ -15,6 +15,4 @@ public class Member {
     return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password
         + ", createdDate=" + createdDate + "]";
   }
-
-
 }
