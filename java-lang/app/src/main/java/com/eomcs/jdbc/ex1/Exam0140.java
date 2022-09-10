@@ -42,7 +42,7 @@ public class Exam0140 {
       //    2) 등록된 Driver 구현체 목록에서 해당 드라이버를 찾아 리턴한다.
       //    
       java.sql.Driver driver = DriverManager.getDriver("jdbc:mariadb://");
-      //      System.out.println(driver);
+      System.out.println(driver);
 
     } catch (Exception e) {
       e.printStackTrace();
