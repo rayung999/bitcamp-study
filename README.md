@@ -363,5 +363,60 @@ export PATH=${JAVA_HOME}/bin:$PATH
   - DDL 사용법(계속)
   - DML 사용법
 
+### 41일(8/31) 
+
+- SQL 사용법
+  - DML 사용법(계속)
+  - PK, FK
+  - 조인 예제 테이블 준비
+
+### 42일(9/1) 
+
+- SQL 사용법
+  - 조인 사용법
+  - 서브 쿼리 사용법
+  - 그룹핑 사용법
+- DB 모델링
+  - ER-Diagram 도구 설치(www.exerd.com)
+  
+### 43일(9/2) 
+
+- DB 모델링
+  - 엔티티 식별 및 속성 식별
+  - 제1,2,3 정규화 방법
+  - 논리 모델링 및 물리 모델링
+  - 포워드 엔지니어링을 통해 DDL 생성 및 테이블 생성
+
+### 44일(9/5) 
+
+- JDBC 프로그래밍(com.eomcs.jdbc.*)
+  - DBMS Native API 와 ODBC API 개념
+  - JDBC Driver 유형
+  - JDBC 프로그래밍 절차
+  - Driver 구현체 생성 및 DriverManager에 등록하는 방법
+  - DBMS에 연결하는 방법
+
+### 45일(9/6) 
+
+- JDBC 프로그래밍(com.eomcs.jdbc.*)
+  - insert, select, update, delete 을 다루는 법
+  - SQL 삽입 공격을 막는 방법: Statement와 PreparedStatement
+  - 트랜잭션 다루기
+  
+### 46일(9/7) 
+
+- board-app 프로젝트 수행 
+  - 046. DBMS 도입하기
+
+### 47일(9/8) 
+
+- board-app 프로젝트 수행 
+  - 047. Connection 객체 공유하기
+  - 048. Connection 객체 공유하기 II - 의존 객체 주입 방식
+  - 049. DAO 객체를 교체하기 쉽게 만들기 - 의존 객체 주입과 인터페이스
+  - 050. 트랜잭션 다루기 - 자동 커밋과 수동 커밋
+- 팀별 프로젝트
+  - 팀원 결정
+  
 ## 구글 미트
 https://meet.google.com/uou-bbtj-qzf
