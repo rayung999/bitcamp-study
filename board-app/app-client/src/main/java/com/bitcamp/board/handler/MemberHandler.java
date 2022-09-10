@@ -4,19 +4,19 @@
 package com.bitcamp.board.handler;
 
 import java.util.List;
-import com.bitcamp.board.dao.MariaDBMemberDao;
+import com.bitcamp.board.dao.MemberDao;
 import com.bitcamp.board.domain.Member;
 import com.bitcamp.handler.AbstractHandler;
 import com.bitcamp.util.Prompt;
 
 public class MemberHandler extends AbstractHandler {
 
-  private MariaDBMemberDao memberDao;
+  private MemberDao memberDao;
 
-  public MemberHandler() {
+  public MemberHandler(MemberDao memberDao) {
     super(new String[] {"목록", "상세보기", "등록", "삭제", "변경"});
 
-    memberDao = new MariaDBMemberDao();
+    this.memberDao = memberDao;
   }
 
   @Override
@@ -96,12 +96,12 @@ public class MemberHandler extends AbstractHandler {
     member.password = Prompt.inputString("암호?");
 
     String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
-
+    int tmp = memberDao.update(member);
     if (input.equals("y")) {
-      if (memberDao.update(member) == 1) {
+      if ( tmp == 1) {
         System.out.println("변경했습니다.");
       } else {
-        System.out.println("변경 실패입니다!");
+        System.out.println("변경 실패입니다! \n " + tmp);
       }
 
     } else {

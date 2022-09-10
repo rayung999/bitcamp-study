@@ -4,21 +4,21 @@
 package com.bitcamp.board.handler;
 
 import java.util.List;
-import com.bitcamp.board.dao.MariaDBBoardDao;
+import com.bitcamp.board.dao.BoardDao;
 import com.bitcamp.board.domain.Board;
 import com.bitcamp.handler.AbstractHandler;
 import com.bitcamp.util.Prompt;
 
 public class BoardHandler extends AbstractHandler {
 
-  private MariaDBBoardDao boardDao;
+  private BoardDao boardDao;
 
-  public BoardHandler() {
+  public BoardHandler(BoardDao boardDao) {
 
     // 수퍼 클래스의 생성자를 호출할 때 메뉴 목록을 전달한다.
     super(new String[] {"목록", "상세보기", "등록", "삭제", "변경"});
 
-    boardDao = new MariaDBBoardDao();
+    this.boardDao = boardDao;
   }
 
   @Override
@@ -102,7 +102,8 @@ public class BoardHandler extends AbstractHandler {
     }
   }
 
-  private void onUpdate() throws Exception {
+  private void onUpdate() throws Exception{
+    //    변경할 번호 입력 받기
     int boardNo = 0;
     while (true) {
       try {
@@ -112,25 +113,22 @@ public class BoardHandler extends AbstractHandler {
         System.out.println("입력 값이 옳지 않습니다!");
       }
     }
-
     Board board = boardDao.findByNo(boardNo);
-    if (board == null) {
+    if(board == null) {
       System.out.println("해당 번호의 게시글이 없습니다!");
       return;
     }
 
     board.title = Prompt.inputString("제목?(" + board.title + ") ");
-    board.content = Prompt.inputString(String.format("내용?(%s) ", board.content));
+    board.content= Prompt.inputString(String.format("내용?(%s) ", board.content));
 
     String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
-
+    int tmp = boardDao.update(board);
     if (input.equals("y")) {
-      if (boardDao.update(board) == 1) {
+      if ( tmp == 1) {
         System.out.println("변경했습니다.");
       } else {
-        System.out. println("변경 실패입니다!");
-      }
-
+        System.out.println("변경 실패입니다! \n " + tmp);     } 
     } else {
       System.out.println("변경 취소했습니다.");
     }
