@@ -1,15 +1,12 @@
 package com.bitcamp.board;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.ArrayList;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Stack;
-import com.bitcamp.board.dao.MariaDBBoardDao;
-import com.bitcamp.board.dao.MariaDBMemberDao;
-import com.bitcamp.board.handler.BoardHandler;
-import com.bitcamp.board.handler.MemberHandler;
-import com.bitcamp.handler.Handler;
-import com.bitcamp.util.Prompt;
 
 public class ServerApp {
 
@@ -17,6 +14,40 @@ public class ServerApp {
   public static Stack<String> breadcrumbMenu = new Stack<>();
 
   public static void main(String[] args) {
+    try (ServerSocket serverSocket = new ServerSocket(8888)) {
+      System.out.println("서버 실행 중...");
+
+      try (Socket socket = serverSocket.accept();
+          DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+          DataInputStream in = new DataInputStream(socket.getInputStream())) {
+        System.out.println("클라이언트 접속!");
+
+        StringWriter strOut = new StringWriter();
+        PrintWriter tempOut = new PrintWriter(strOut);
+
+        welcome(tempOut);
+
+        // 클라이언트로 출력하기
+        out.writeUTF(strOut.toString());
+
+        System.out.println("클라이언트에게 응답!");
+
+      } catch (Exception e) {
+        System.out.println("클라이언트와 통신하는 중 오류 발생!");
+        e.printStackTrace();
+      }
+
+      System.out.println("서버 종료!");
+
+    } catch (Exception e) {
+      System.out.println("서버 실행 중 오류 발생!");
+      e.printStackTrace();
+    }
+  }
+
+
+  /*
+  public static void main2(String[] args) {
     try(// DAO 가 사용할 커넥션 준비
         Connection con = DriverManager.getConnection(
             "jdbc:mariadb://localhost:3306/studydb","study","1111");
@@ -80,12 +111,12 @@ public class ServerApp {
       e.printStackTrace();
     }
   }
-
-  static void welcome() {
-    System.out.println("[게시판 애플리케이션]");
-    System.out.println();
-    System.out.println("환영합니다!");
-    System.out.println();
+   */
+  static void welcome(PrintWriter out) throws Exception {
+    out.println("[게시판 애플리케이션]");
+    out.println();
+    out.println("환영합니다!");
+    out.println();
   }
 
   static void printMenus(String[] menus) {
