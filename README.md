@@ -418,5 +418,11 @@ export PATH=${JAVA_HOME}/bin:$PATH
 - 팀별 프로젝트
   - 팀원 결정
   
+  ### 48일(9/13) 
+
+- board-app 프로젝트 수행 
+  - 051. Application Server 구조로 전환하기
+
+  
 ## 구글 미트
 https://meet.google.com/uou-bbtj-qzf

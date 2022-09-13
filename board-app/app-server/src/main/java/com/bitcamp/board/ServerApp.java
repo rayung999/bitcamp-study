@@ -50,6 +50,7 @@ public class ServerApp {
               // 메인 메뉴를 출력한다.
               try (StringWriter strOut = new StringWriter();
                   PrintWriter tempOut = new PrintWriter(strOut);) {
+
                 if (first) { // 최초 접속이면 환영 메시지도 출력한다.
                   welcome(tempOut);
                   first = false;
