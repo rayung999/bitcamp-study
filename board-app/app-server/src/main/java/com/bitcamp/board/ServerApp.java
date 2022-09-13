@@ -7,24 +7,14 @@ import java.io.StringWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Stack;
 import com.bitcamp.board.handler.BoardHandler;
 import com.bitcamp.board.handler.MemberHandler;
 import com.bitcamp.handler.Handler;
+import com.bitcamp.util.BreadCrumb;
 
-// 1) 클라이언트 접속 시 환영 메시지 전송
-// 2) 여러 클라이언트를 순차적으로 접속 처리
-// 3) 스레드를 이용하여 여러 클라이언트를 동시 접속 처리
-// 4) 클라이언트가 보낸 요청 값을 받아서 그래도 돌려둔다.
-// 5) 요청/응답을 무한 반복한다.
-// 6) quit 명령을 보내면 연결 끊기
-// 7) 환영 메시지 후에 메인 메뉴를 응답한다.
-// 8) 사용자가 선택한 메뉴 번호의 유효성을 검증한다.
-//
 public class ServerApp {
 
-  // breadcrumb 메뉴를 저장할 스택을 준비
-  public static Stack<String> breadcrumbMenu = new Stack<>();
+
 
   // 메인 메뉴 목록 준비
   static String[] menus = {"게시판", "회원"};
@@ -48,44 +38,47 @@ public class ServerApp {
               DataInputStream in = new DataInputStream(socket.getInputStream())) {
             System.out.println("클라이언트 접속!");
 
-            // 접속 후 환영 메시지와 메인 메뉴를 출력한다.
-            try (StringWriter strOut = new StringWriter();
-                PrintWriter tempOut = new PrintWriter(strOut);) {
-              welcome(tempOut);
-              printMainMenus(tempOut);
-              out.writeUTF(strOut.toString());
-            }
+            // 접속한 클라이언트의 이동 경로를 보관할 breadcrumb 객체 준비
+            BreadCrumb breadcrumb = new BreadCrumb();
+            breadcrumb.put("메인");
+
+            boolean first = true;
+            String errorMessage = null;
 
             while (true) {
+
+              // 메인 메뉴를 출력한다.
+              try (StringWriter strOut = new StringWriter();
+                  PrintWriter tempOut = new PrintWriter(strOut);) {
+                if (first) { // 최초 접속이면 환영 메시지도 출력한다.
+                  welcome(tempOut);
+                  first = false;
+                }
+
+                if (errorMessage != null) {
+                  tempOut.println(errorMessage);
+                  errorMessage = null;
+                }
+
+                printMainMenus(tempOut);
+                out.writeUTF(strOut.toString());
+              }
+
               // 클라이언트가 보낸 요청을 읽는다.
               String request = in.readUTF();
               if (request.equals("quit")) {
                 break;
               }
 
-              // 클라이언트에게 응답한다.
-              try (// 응답 내용을 출력할 임시 출력 스트림 준비
-                  StringWriter strOut = new StringWriter();
-                  PrintWriter tempOut = new PrintWriter(strOut);) {
-
-                try {
-                  int mainMenuNo = Integer.parseInt(request);
-
-                  if (mainMenuNo >= 1 && mainMenuNo <= menus.length) {
-                    // 메뉴 번호로 Handler 레퍼런스에 들어있는 객체를 찾아 실행한다.
-                    handlers.get(mainMenuNo - 1).execute();
-
-                  } else {
-                    tempOut.println("해당 번호의 메뉴가 없습니다!");
-                  }
-
-                } catch (Exception e) {
-                  tempOut.println("입력 값이 옳지 않습니다.");
+              try {
+                int mainMenuNo = Integer.parseInt(request);
+                if (mainMenuNo >= 1 && mainMenuNo <= menus.length) {
+                  handlers.get(mainMenuNo - 1).execute(in, out);
+                } else {
+                  throw new Exception("해당 번호의 메뉴가 없습니다!");
                 }
-
-                tempOut.println();
-                printMainMenus(tempOut);
-                out.writeUTF(strOut.toString());
+              } catch (Exception e) {
+                errorMessage = String.format("실행 오류: %s", e.getMessage());
               }
             }
 
@@ -177,16 +170,5 @@ public class ServerApp {
 
     // 메뉴 번호 입력을 요구하는 문장 출력
     out.printf("메뉴를 선택하세요[1..%d](quit: 종료) ", menus.length);
-  }
-
-  protected static void printTitle() {
-    StringBuilder builder = new StringBuilder();
-    for (String title : breadcrumbMenu) {
-      if (!builder.isEmpty()) {
-        builder.append(" > ");
-      }
-      builder.append(title);
-    }
-    System.out.printf("%s:\n", builder.toString());
   }
 }
