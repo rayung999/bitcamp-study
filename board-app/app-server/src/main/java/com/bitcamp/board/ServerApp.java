@@ -17,27 +17,36 @@ public class ServerApp {
     try (ServerSocket serverSocket = new ServerSocket(8888)) {
       System.out.println("서버 실행 중...");
 
-      try (Socket socket = serverSocket.accept();
-          DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-          DataInputStream in = new DataInputStream(socket.getInputStream())) {
-        System.out.println("클라이언트 접속!");
+      while (true) {
+        Socket socket = serverSocket.accept();
 
-        StringWriter strOut = new StringWriter();
-        PrintWriter tempOut = new PrintWriter(strOut);
+        new Thread(() -> {
+          // 스레드를 시작하는 순간, 별도의 실행 흐름에서 병행으로 실행된다.
+          try (
+              DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+              DataInputStream in = new DataInputStream(socket.getInputStream())) {
+            System.out.println("클라이언트 접속!");
 
-        welcome(tempOut);
+            StringWriter strOut = new StringWriter();
+            PrintWriter tempOut = new PrintWriter(strOut);
 
-        // 클라이언트로 출력하기
-        out.writeUTF(strOut.toString());
+            welcome(tempOut);
 
-        System.out.println("클라이언트에게 응답!");
+            // 클라이언트로 출력하기
+            out.writeUTF(strOut.toString());
 
-      } catch (Exception e) {
-        System.out.println("클라이언트와 통신하는 중 오류 발생!");
-        e.printStackTrace();
+            System.out.println("클라이언트에게 응답!");
+
+          } catch (Exception e) {
+            System.out.println("클라이언트와 통신하는 중 오류 발생!");
+            e.printStackTrace();
+          }
+        }).start();
+
+
       }
 
-      System.out.println("서버 종료!");
+      //      System.out.println("서버 종료!");
 
     } catch (Exception e) {
       System.out.println("서버 실행 중 오류 발생!");
