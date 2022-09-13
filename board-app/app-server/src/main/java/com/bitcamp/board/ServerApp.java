@@ -39,7 +39,7 @@ public class ServerApp {
             System.out.println("클라이언트 접속!");
 
             // 접속한 클라이언트의 이동 경로를 보관할 breadcrumb 객체 준비
-            BreadCrumb breadcrumb = new BreadCrumb();
+            BreadCrumb breadcrumb = new BreadCrumb(); // 현재 스레드 보관소에 저장된다.
             breadcrumb.put("메인");
 
             boolean first = true;
@@ -60,6 +60,7 @@ public class ServerApp {
                   errorMessage = null;
                 }
 
+                tempOut.println(breadcrumb.toString());
                 printMainMenus(tempOut);
                 out.writeUTF(strOut.toString());
               }
@@ -72,8 +73,16 @@ public class ServerApp {
 
               try {
                 int mainMenuNo = Integer.parseInt(request);
+
                 if (mainMenuNo >= 1 && mainMenuNo <= menus.length) {
+                  // 핸들러에 들어가기 전에 breadcrumb 메뉴에 하위 메뉴 이름을 추가한다.
+                  breadcrumb.put(menus[mainMenuNo - 1]);
+
                   handlers.get(mainMenuNo - 1).execute(in, out);
+
+                  // 다시 메인 메뉴로 돌아 왔다면 breadcrumb 메뉴에서 한 단계 위로 올라간다.
+                  breadcrumb.pickUp();
+
                 } else {
                   throw new Exception("해당 번호의 메뉴가 없습니다!");
                 }
