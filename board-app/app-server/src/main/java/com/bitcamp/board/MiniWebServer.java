@@ -1,5 +1,6 @@
 package com.bitcamp.board;
 
+import static org.reflections.scanners.Scanners.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -11,7 +12,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import org.reflections.Reflections;
+import org.reflections.Store;
+import org.reflections.util.QueryFunction;
 import com.bitcamp.Servlet.Servlet;
+import com.bitcamp.Servlet.annotation.WebServlet;
 import com.bitcamp.board.dao.BoardDao;
 import com.bitcamp.board.dao.MariaDBBoardDao;
 import com.bitcamp.board.dao.MariaDBMemberDao;
@@ -38,6 +44,33 @@ import com.sun.net.httpserver.HttpServer;
 public class MiniWebServer {
 
   public static void main(String[] args) throws Exception {
+    // 클래스를 찾아주는 도구를 준비
+    Reflections reflections = new Reflections("com.bitcamp.board");
+
+    //    // 지정된 패키지에서 @WebServlet 애노테이션이 붙은 클래스를 모두 찾는다.
+    //    // 검색필터 1) WebServlet 애노테이션이 붙어 있는 클래스의 이름들을 모두 찾아라!
+    //    QueryFunction<Store,String> 검색필터1 = TypesAnnotated.with(WebServlet.class);
+    //
+    //    // 검색필터 2) 찾은 클래스 이름을 가지고 클래스를 Method Area 영역에 로딩하여
+    //    //              Class 객체 목록을 리턴하라!
+    //    QueryFunction<Store,Class<?>> 검색필터2 = 검색필터1.asClass();
+    //
+    //    // 위의 두 검색 조건으로 클래스를 찾는다.
+    //    Set<Class<?>> 서블릿클래스들 = reflections.get(검색필터2);
+    //    
+    //    for (Class<?> 서블릿클래스정보 : 서블릿클래스들) {
+    //      System.out.println(서블릿클래스정보.getName());
+    //    }
+
+    Set<Class<?>> servlets = reflections.get(TypesAnnotated.with(WebServlet.class).asClass());
+
+    for (Class<?> servlet : servlets) {
+      WebServlet anno = servlet.getAnnotation(WebServlet.class);
+      System.out.printf("%s ---> %s\n", anno.value(), .getName());
+    }
+  }
+
+  public static void main2(String[] args) throws Exception {
     Connection con = DriverManager.getConnection(
         "jdbc:mariadb://localhost:3306/studydb","study","1111");
 
