@@ -13,10 +13,8 @@ public interface BoardDao {
 
   int delete(int no) throws Exception;
 
-  public List<Board> findAll() throws Exception;
-
+  List<Board> findAll() throws Exception;
 }
-
 
 
 

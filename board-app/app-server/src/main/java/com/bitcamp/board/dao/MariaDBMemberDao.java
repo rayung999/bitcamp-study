@@ -11,7 +11,7 @@ public class MariaDBMemberDao implements MemberDao {
 
   Connection con;
 
-  // DAO 가 사용할 의존 객체 Connection을 생성자의 파라미터로 받는다.
+  // DAO가 사용할 의존 객체 Connection을 생성자의 파라미터로 받는다.
   public MariaDBMemberDao(Connection con) {
     this.con = con;
   }
@@ -19,7 +19,7 @@ public class MariaDBMemberDao implements MemberDao {
   @Override
   public int insert(Member member) throws Exception {
     try (PreparedStatement pstmt = con.prepareStatement(
-        "insert into app_member(name,email,pwd) values(?,?,sha2(?,256))")) { // 값을 넣을 자리를 인-파라미터로 표시
+        "insert into app_member(name,email,pwd) values(?,?,sha2(?,256))")) {
 
       pstmt.setString(1, member.name);
       pstmt.setString(2, member.email);
@@ -32,39 +32,32 @@ public class MariaDBMemberDao implements MemberDao {
   @Override
   public Member findByNo(int no) throws Exception {
 
-    // try (java.lang.AutoCloseable 타입의 변수만 가능) {}
     try (PreparedStatement pstmt = con.prepareStatement(
-        "select mno,name,email,cdt from app_member where mno=?")) { // 값을 넣을 자리를 인-파라미터로 표시
+        "select mno,name,email,cdt from app_member where mno=" + no);
+        ResultSet rs = pstmt.executeQuery()) {
 
-      pstmt.setInt(1, no); // 밑의 try문을 위의 try문이랑 합치면 안된다. 변수 선언이 아니라 그냥 메서드 호출이기 때문에.
-
-      try (ResultSet rs = pstmt.executeQuery()) {
-        // DDL 명령어를 사용하려면 executeUpdate()!!
-
-        if (!rs.next()) {
-          return null;
-        }
-
-        Member member = new Member();
-        member.no = rs.getInt("mno");
-        member.name = rs.getString("name");
-        member.email = rs.getString("email");
-        member.createdDate = rs.getDate("cdt");
-
-        return member;
+      if (!rs.next()) {
+        return null;
       }
+
+      Member member = new Member();
+      member.no = rs.getInt("mno");
+      member.name = rs.getString("name");
+      member.email = rs.getString("email");
+      member.createdDate = rs.getDate("cdt");
+      return member;
     }
   }
 
   @Override
   public int update(Member member) throws Exception {
     try (PreparedStatement pstmt = con.prepareStatement(
-        "update app_member set name=?, email=?,pwd=sha2(?,256) where mno=?")) { // 값을 넣을 자리를 인-파라미터로 표시
+        "update app_member set name=?, email=?, pwd=sha2(?,256) where mno=?")) {
 
       pstmt.setString(1, member.name);
       pstmt.setString(2, member.email);
       pstmt.setString(3, member.password);
-      pstmt.setInt(4,  member.no);
+      pstmt.setInt(4, member.no);
 
       return pstmt.executeUpdate();
     }
@@ -73,10 +66,11 @@ public class MariaDBMemberDao implements MemberDao {
   @Override
   public int delete(int no) throws Exception {
     try (PreparedStatement pstmt1 = con.prepareStatement("delete from app_board where mno=?");
-        PreparedStatement pstmt2 = con.prepareStatement("delete from app_member6 where mno=?")) { // 값을 넣을 자리를 인-파라미터로 표시
+        PreparedStatement pstmt2 = con.prepareStatement("delete from app_member where mno=?")) {
 
       // 커넥션 객체를 수동 커밋 상태로 설정한다.
       con.setAutoCommit(false);
+
       // 회원이 작성한 게시글을 삭제한다.
       pstmt1.setInt(1, no);
       pstmt1.executeUpdate();
@@ -102,13 +96,12 @@ public class MariaDBMemberDao implements MemberDao {
       // 삭제 작업 후 자동 커밋 상태로 전환한다.
       con.setAutoCommit(true);
     }
-
-
   }
 
   @Override
   public List<Member> findAll() throws Exception {
-    try (PreparedStatement pstmt = con.prepareStatement("select mno,name,email,cdt from app_member");
+    try (PreparedStatement pstmt = con.prepareStatement(
+        "select mno,name,email from app_member");
         ResultSet rs = pstmt.executeQuery()) {
 
       ArrayList<Member> list = new ArrayList<>();
@@ -126,7 +119,6 @@ public class MariaDBMemberDao implements MemberDao {
     }
   }
 }
-
 
 
 

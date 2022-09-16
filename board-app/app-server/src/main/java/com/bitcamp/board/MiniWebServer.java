@@ -11,25 +11,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
+import com.bitcamp.Servlet.Servlet;
 import com.bitcamp.board.dao.BoardDao;
 import com.bitcamp.board.dao.MariaDBBoardDao;
 import com.bitcamp.board.dao.MariaDBMemberDao;
 import com.bitcamp.board.dao.MemberDao;
-import com.bitcamp.board.handler.BoardHandler;
+import com.bitcamp.board.handler.BoardAddHandler;
+import com.bitcamp.board.handler.BoardDeleteHandler;
+import com.bitcamp.board.handler.BoardDetailHandler;
+import com.bitcamp.board.handler.BoardFormHandler;
+import com.bitcamp.board.handler.BoardListHandler;
+import com.bitcamp.board.handler.BoardUpdateHandler;
 import com.bitcamp.board.handler.ErrorHandler;
+import com.bitcamp.board.handler.MemberAddHandler;
+import com.bitcamp.board.handler.MemberDeleteHandler;
+import com.bitcamp.board.handler.MemberDetailHandler;
+import com.bitcamp.board.handler.MemberFormHandler;
+import com.bitcamp.board.handler.MemberListHandler;
+import com.bitcamp.board.handler.MemberUpdateHandler;
 import com.bitcamp.board.handler.WelcomeHandler;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-// 1) 기본 웹 서버 만들기
-// 2) 한글 콘텐트를 출력하기
-// 3) HTML 콘텐트를 출력하기
-// 4) 메인 화면을 출력하는 요청처리 객체를 분리하기
-// 5) 요청 자원의 경로를 구분하여 처리하기
-// 6) 게시글 요청 처리하기
-//
 public class MiniWebServer {
 
   public static void main(String[] args) throws Exception {
@@ -39,9 +44,26 @@ public class MiniWebServer {
     BoardDao boardDao = new MariaDBBoardDao(con);
     MemberDao memberDao = new MariaDBMemberDao(con);
 
-    WelcomeHandler welcomeHandler = new WelcomeHandler();
+    // Servlet 객체를 보관할 맵을 준비
+    Map<String,Servlet> servletMap = new HashMap<>();
+
+    servletMap.put("/",new WelcomeHandler());
+
+    servletMap.put("/board/form",new BoardFormHandler());
+    servletMap.put("/board/add",new BoardAddHandler(boardDao));
+    servletMap.put("/board/list",new BoardListHandler(boardDao));
+    servletMap.put("/board/detail",new BoardDetailHandler(boardDao));
+    servletMap.put("/board/update",new BoardUpdateHandler(boardDao));
+    servletMap.put("/board/delete",new BoardDeleteHandler(boardDao));
+
+    servletMap.put("/member/form",new MemberFormHandler());
+    servletMap.put("/member/add",new MemberAddHandler(memberDao));
+    servletMap.put("/member/list",new MemberListHandler(memberDao));
+    servletMap.put("/member/detail",new MemberDetailHandler(memberDao));
+    servletMap.put("/member/update",new MemberUpdateHandler(memberDao));
+    servletMap.put("/member/delete",new MemberDeleteHandler(memberDao));
+
     ErrorHandler errorHandler = new ErrorHandler();
-    BoardHandler boardHandler = new BoardHandler(boardDao);
 
     class MyHttpHandler implements HttpHandler {
       @Override
@@ -49,9 +71,9 @@ public class MiniWebServer {
         System.out.println("클라이언트가 요청함!");
 
         URI requestUri = exchange.getRequestURI();
-        String path = requestUri.getPath(); 
-        //        String query = requestUri.getQuery();// 디코딩을 제대로 수행하지 못한다!
-        String query = requestUri.getRawQuery(); // 디코딩 없이 query string을 그대로 리턴받기
+        String path = requestUri.getPath();
+        // String query = requestUri.getQuery(); // 디코딩을 제대로 수행하지 못한다!
+        String query = requestUri.getRawQuery(); // 디코딩 없이 query string을 그대로 리턴 받기!
         byte[] bytes = null;
 
         try (StringWriter stringWriter = new StringWriter();
@@ -66,33 +88,14 @@ public class MiniWebServer {
               paramMap.put(kv[0], URLDecoder.decode(kv[1], "UTF-8"));
             }
           }
-          System.out.println(requestUri);
-          System.out.println(query);
           System.out.println(paramMap);
 
-          if (path.equals("/")) {
-            welcomeHandler.service(paramMap, printWriter);
+          Servlet servlet = servletMap.get(path);
 
-          } else if (path.equals("/board/list")) {
-            boardHandler.list(paramMap, printWriter);
-
-          } else if (path.equals("/board/detail")) {
-            boardHandler.detail(paramMap, printWriter);
-
-          } else if (path.equals("/board/update")) {
-            boardHandler.update(paramMap, printWriter);
-
-          } else if (path.equals("/board/delete")) {
-            boardHandler.delete(paramMap, printWriter);
-
-          } else if (path.equals("/board/form")) {
-            boardHandler.form(paramMap, printWriter);
-
-          } else if (path.equals("/board/add")) {
-            boardHandler.add(paramMap, printWriter);
-
+          if (servlet != null) {
+            servlet.service(paramMap, printWriter);
           } else {
-            errorHandler.error(paramMap, printWriter);
+            errorHandler.service(paramMap, printWriter);
           }
 
           bytes = stringWriter.toString().getBytes("UTF-8");
