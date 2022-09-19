@@ -5,11 +5,11 @@ package com.bitcamp.board.handler;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import com.bitcamp.Servlet.Servlet;
-import com.bitcamp.Servlet.annotation.WebServlet;
 import com.bitcamp.board.dao.BoardDao;
+import com.bitcamp.servlet.Servlet;
+import com.bitcamp.servlet.annotation.WebServlet;
 
-@WebServlet(value = "/board/delete")
+@WebServlet(value="/board/delete")
 public class BoardDeleteHandler implements Servlet {
 
   private BoardDao boardDao;
@@ -44,7 +44,6 @@ public class BoardDeleteHandler implements Servlet {
     out.println("</html>");
 
   }
-
 }
 
 

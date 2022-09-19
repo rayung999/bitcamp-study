@@ -5,12 +5,12 @@ package com.bitcamp.board.handler;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import com.bitcamp.Servlet.Servlet;
-import com.bitcamp.Servlet.annotation.WebServlet;
 import com.bitcamp.board.dao.BoardDao;
 import com.bitcamp.board.domain.Board;
+import com.bitcamp.servlet.Servlet;
+import com.bitcamp.servlet.annotation.WebServlet;
 
-@WebServlet(value = "/board/update")
+@WebServlet(value="/board/update")
 public class BoardUpdateHandler implements Servlet {
 
   private BoardDao boardDao;

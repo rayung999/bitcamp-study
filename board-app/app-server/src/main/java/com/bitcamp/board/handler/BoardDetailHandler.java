@@ -5,12 +5,12 @@ package com.bitcamp.board.handler;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import com.bitcamp.Servlet.Servlet;
-import com.bitcamp.Servlet.annotation.WebServlet;
 import com.bitcamp.board.dao.BoardDao;
 import com.bitcamp.board.domain.Board;
+import com.bitcamp.servlet.Servlet;
+import com.bitcamp.servlet.annotation.WebServlet;
 
-@WebServlet(value = "/board/detail")
+@WebServlet(value="/board/detail")
 public class BoardDetailHandler implements Servlet {
 
   private BoardDao boardDao;
@@ -18,6 +18,7 @@ public class BoardDetailHandler implements Servlet {
   public BoardDetailHandler(BoardDao boardDao) {
     this.boardDao = boardDao;
   }
+
 
   @Override
   public void service(Map<String,String> paramMap, PrintWriter out) throws Exception {

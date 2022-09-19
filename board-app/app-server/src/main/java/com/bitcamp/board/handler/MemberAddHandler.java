@@ -5,12 +5,12 @@ package com.bitcamp.board.handler;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import com.bitcamp.Servlet.Servlet;
-import com.bitcamp.Servlet.annotation.WebServlet;
 import com.bitcamp.board.dao.MemberDao;
 import com.bitcamp.board.domain.Member;
+import com.bitcamp.servlet.Servlet;
+import com.bitcamp.servlet.annotation.WebServlet;
 
-@WebServlet(value = "/member/add")
+@WebServlet(value="/member/add")
 public class MemberAddHandler implements Servlet {
 
   private MemberDao memberDao;

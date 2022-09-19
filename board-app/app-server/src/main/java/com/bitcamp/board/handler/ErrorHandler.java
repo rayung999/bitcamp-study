@@ -2,10 +2,9 @@ package com.bitcamp.board.handler;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import com.bitcamp.Servlet.Servlet;
+import com.bitcamp.servlet.Servlet;
 
 public class ErrorHandler implements Servlet {
-  @Override
   public void service(Map<String,String> paramMap, PrintWriter out) {
     out.println("<!DOCTYPE html>");
     out.println("<html>");

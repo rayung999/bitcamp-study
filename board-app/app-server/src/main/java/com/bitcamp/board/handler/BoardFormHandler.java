@@ -5,10 +5,10 @@ package com.bitcamp.board.handler;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import com.bitcamp.Servlet.Servlet;
-import com.bitcamp.Servlet.annotation.WebServlet;
+import com.bitcamp.servlet.Servlet;
+import com.bitcamp.servlet.annotation.WebServlet;
 
-@WebServlet(value = "/board/form")
+@WebServlet(value="/board/form")
 public class BoardFormHandler implements Servlet {
 
   @Override
@@ -45,6 +45,7 @@ public class BoardFormHandler implements Servlet {
     out.println("</html>");
 
   }
+
 
 }
 
