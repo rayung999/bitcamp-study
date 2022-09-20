@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 
 
 
-@WebServlet(value="/")
+@WebServlet(value="/welcome")
 public class WelcomeServlet implements Servlet {
   @Override
   public void service(ServletRequest req, ServletResponse res)

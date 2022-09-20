@@ -74,5 +74,5 @@ eclipse {
 // 웹 애플리케이션 배포 파일(.war)을 만들 때 사용할 기본 파일 이름을 설정한다.
 // 이 이름은 웹 애플리케이션 context root 경로로도 사용된다.
 war {
-    archiveBaseName = "web"
+    archiveBaseName = "app"
 }
