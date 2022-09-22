@@ -17,9 +17,8 @@ public class WelcomeServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
 
-    //  콘텐트를 출력하기 위해 출력 스트림을 준비하기 전에
-    //  어떤 인코딩으로 출력할 것인지 먼저 설정해야 한다.
-
+    // 콘텐트를 출력하는 출력 스트림을 준비하기 전에
+    // 어떤 인코딩으로 콘텐트를 출력할 것인지 먼저 설정해야 한다.
     res.setContentType("text/html; charset=UTF-8");
 
     PrintWriter out = res.getWriter();
@@ -31,7 +30,7 @@ public class WelcomeServlet extends HttpServlet {
     out.println("<title>bitcamp</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>방가워옹</h1>");
+    out.println("<h1>환영합니다!3</h1>");
     out.println("<p>비트캠프 게시판 관리 시스템 프로젝트입니다.</p>");
     out.println("<ul>");
     out.println("  <li><a href='board/list'>게시글</a></li>");
@@ -40,5 +39,4 @@ public class WelcomeServlet extends HttpServlet {
     out.println("</body>");
     out.println("</html>");
   }
-
 }

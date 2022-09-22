@@ -1,3 +1,3 @@
 function hello() {
-  alert('앙농하세요!!');
+  alert('안녕하세요!!');
 }

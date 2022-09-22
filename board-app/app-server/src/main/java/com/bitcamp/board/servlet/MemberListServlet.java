@@ -8,13 +8,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.bitcamp.board.dao.MemberDao;
 import com.bitcamp.board.domain.Member;
-
 
 @WebServlet(value="/member/list")
 public class MemberListServlet extends HttpServlet {
-
   private static final long serialVersionUID = 1L;
+
+  MemberDao memberDao;
+
+  @Override
+  public void init() throws ServletException {
+    memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
+  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -37,12 +43,10 @@ public class MemberListServlet extends HttpServlet {
     out.println("</head>");
     out.println("<body>");
     out.println("<h1>회원</h1>");
+
     out.println("<a href='form'>새 회원</a>");
 
-
     try {
-      List<Member> members = AppinitServlet.memberDao.findAll();
-
       out.println("<table border='1'>");
       out.println("  <tr>");
       out.println("    <th>번호</th>");
@@ -50,6 +54,7 @@ public class MemberListServlet extends HttpServlet {
       out.println("    <th>이메일</th>");
       out.println("  </tr>");
 
+      List<Member> members = memberDao.findAll();
       for (Member member : members) {
         out.println("<tr>");
         out.printf("  <td>%d</td>", member.no);
@@ -57,14 +62,11 @@ public class MemberListServlet extends HttpServlet {
         out.printf("  <td>%s</td>", member.email);
         out.println("</tr>");
       }
-
-      out.println("</table>");
-
     } catch (Exception e) {
       out.println("<p>실행 중 오류 발생!</p>");
     }
-
-    out.println("<p><a href='/app/welcome'>메인</a></p>");
+    out.println("</table>");
+    out.println("<p><a href='../welcome'>메인</a></p>");
     out.println("</body>");
     out.println("</html>");
   }

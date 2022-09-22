@@ -1,6 +1,3 @@
-/*
- * 회원 메뉴 처리 클래스
- */
 package com.bitcamp.board.servlet;
 
 import java.io.IOException;
@@ -10,12 +7,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.bitcamp.board.dao.MemberDao;
 
 @WebServlet(value="/member/delete")
 public class MemberDeleteServlet extends HttpServlet {
-
   private static final long serialVersionUID = 1L;
+
+  MemberDao memberDao;
+
+  @Override
+  public void init() throws ServletException {
+    memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
+  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -34,10 +37,10 @@ public class MemberDeleteServlet extends HttpServlet {
     out.println("<body>");
     out.println("<h1>회원 삭제</h1>");
 
-    int no = Integer.parseInt(req.getParameter("no"));
-
     try {
-      if (AppinitServlet.memberDao.delete(no) == 0) {
+      int no = Integer.parseInt(req.getParameter("no"));
+
+      if (memberDao.delete(no) == 0) {
         out.println("<p>해당 번호의 회원이 없습니다.</p>");
 
       } else {
