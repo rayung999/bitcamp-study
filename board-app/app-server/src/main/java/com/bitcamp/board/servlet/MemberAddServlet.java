@@ -19,7 +19,6 @@ public class MemberAddServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
-    //김라윤 바보
   }
 
   @Override
