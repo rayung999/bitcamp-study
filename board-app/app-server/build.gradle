@@ -1,8 +1,8 @@
 plugins {
     id 'application'
-    // id 'eclipse' -> eclipse-wtp 플러그인을 추가하면 eclipse 플러그인이 자동으로 추가된다.
+    // id 'eclipse'  <-- eclipse-wtp 플러그인을 추가하면 eclipse 플러그인이 자동으로 추가된다.
     id 'eclipse-wtp'
-    id 'war' 
+    id 'war'
 }
 
 repositories {
@@ -17,16 +17,19 @@ dependencies {
     implementation 'org.reflections:reflections:0.10.2'
     
     // 웹 애플리케이션에서 사용하는 자바 표준 웹 라이브러리
-    // 단, 개발할 때에만 사용한다. 배포할 필요는 없다.
-    // 왜? 톰캣버서에 이미 존재한다.
+    // - 단 개발할 때만 사용한다. 
+    // - 배포할 필요하는 없다. 왜? 톰캣 서버에 이미 존재한다.
     providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     
+    // JSTL 명세를 구현한 라이브러리
     implementation 'javax.servlet:jstl:1.2'
-    // implementation project(':app-common')
-
-
+    
+    // multipart/form-data 형식의 데이터를 처리하는 라이브러리
     implementation 'commons-fileupload:commons-fileupload:1.4'
+    
+    //implementation project(':app-common')
 }
+
 application {
     mainClass = 'com.bitcamp.board.MiniWebServer'
 }
@@ -57,11 +60,11 @@ eclipse {
       javaRuntimeName = "JavaSE-11"
     }
     
-    // 이클립스 IDE 웹 개발 도구에서 사용할 값을 설정한다.
+    // 이클립스IDE 웹 개발 도구에서 사용할 값을 설정한다.
     wtp {
-        facet {  // 웹 애플리케이션의 환경 정보 설정 
+        facet {// 웹 애플리케이션의 환경 정보 설정
             // 웹 애플리케이션을 실행할 때 필요한 최소의 자바 버전 설정
-            facet name: 'jst.java', version: '11'
+            facet name: 'jst.java', version: '11' 
             
             // 웹 애플리케이션에서 사용할 서블릿 버전 설정
             facet name: 'jst.web', version: '4.0'
