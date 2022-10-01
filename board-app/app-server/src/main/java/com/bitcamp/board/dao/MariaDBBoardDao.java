@@ -47,7 +47,7 @@ public class MariaDBBoardDao implements BoardDao {
         pstmt2.executeUpdate();
       }
 
-      return pstmt.executeUpdate();
+      return count;
     }
   }
 
