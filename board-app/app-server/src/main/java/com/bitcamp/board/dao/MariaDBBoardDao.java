@@ -116,7 +116,12 @@ public class MariaDBBoardDao implements BoardDao {
             pstmt.setString(2, board.getContent());
             pstmt.setInt(3, board.getNo());
 
-            return pstmt.executeUpdate();
+            int count = pstmt.executeUpdate();
+
+            // 게시글 변경했다면 첨부 파일 이름을 추가한다.
+            if (count < 0) {
+
+            }
         }
     }
 
