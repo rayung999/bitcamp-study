@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,10 +29,25 @@
   <tr>
     <th>등록일</th><td>${board.createdDate}</td>
   </tr>
+  <tr>
+    <th>첨부파일</th>
+    <td>
+      <ul>
+      <c:forEach items="${board.attachedFiles}" var="file">
+        <li>
+        <a href="files/${file.filepath}">${file.filepath}</a>
+        [<a href="fileDelete?no=${file.no}">삭제</a>]
+        </li>
+      </c:forEach>
+      </ul>
+      파일 추가: <input name='files' type="file" multiple>
+    </td>
+  </tr>
 </table>
 <p>
   <button type='submit'>변경</button>
   <a href='delete?no=${board.no}'>삭제</a>
+  <a href='list'>목록</a>
 </p>
 </form>
 </body>
