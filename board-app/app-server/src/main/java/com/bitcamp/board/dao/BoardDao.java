@@ -26,15 +26,3 @@ public interface BoardDao {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
