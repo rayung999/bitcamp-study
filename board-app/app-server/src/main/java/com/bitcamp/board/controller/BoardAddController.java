@@ -17,7 +17,7 @@ import com.bitcamp.board.domain.Board;
 import com.bitcamp.board.domain.Member;
 import com.bitcamp.board.service.BoardService;
 
-@MultipartConfig(maxFileSize = 1024 * 1024 * 10)
+@MultipartConfig(maxFileSize = 1024 * 1024 * 10) 
 @WebServlet("/board/add")
 public class BoardAddController extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -47,6 +47,7 @@ public class BoardAddController extends HttpServlet {
         if (!part.getName().equals("files") || part.getSize() == 0) {
           continue;
         }
+
         String filename = UUID.randomUUID().toString();
         part.write(dirPath + "/" + filename);
         attachedFiles.add(new AttachedFile(filename));
@@ -67,5 +68,9 @@ public class BoardAddController extends HttpServlet {
     }
   }
 }
+
+
+
+
 
 

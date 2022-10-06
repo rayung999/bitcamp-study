@@ -22,14 +22,14 @@ public class ContextLoaderListener implements ServletContextListener {
     System.out.println("공유 자원을 준비 중!!");
     try {
       Class.forName("org.mariadb.jdbc.Driver");
-      Connection con =
-          DriverManager.getConnection("jdbc:mariadb://localhost:3306/studydb", "study", "1111");
+      Connection con = DriverManager.getConnection(
+          "jdbc:mariadb://localhost:3306/studydb","study","1111");
       ServletContext ctx = sce.getServletContext();
 
       BoardDao boardDao = new MariaDBBoardDao(con);
       MemberDao memberDao = new MariaDBMemberDao(con);
 
-      ctx.setAttribute("boardService", new DefaultBoardService(boardDao));
+      ctx.setAttribute("boardService", new DefaultBoardService(boardDao, con));
       ctx.setAttribute("memberService", new DefaultMemberService(memberDao));
 
     } catch (Exception e) {
