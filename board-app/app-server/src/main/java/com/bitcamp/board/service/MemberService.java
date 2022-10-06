@@ -18,7 +18,12 @@ public interface MemberService {
   boolean delete(int no) throws Exception;
 
   List<Member> list() throws Exception;
-
 }
+
+
+
+
+
+
 
 

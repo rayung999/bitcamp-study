@@ -32,13 +32,13 @@ public class LoginController extends HttpServlet {
       Member member = memberService.get(email, password);
 
       if (member != null) {
-        HttpSession session = request.getSession();
-        session.setAttribute("loginMember", member);
+        HttpSession session = request.getSession(); 
+        session.setAttribute("loginMember", member); 
       }
 
-      Cookie cookie = new Cookie("email", email);
+      Cookie cookie = new Cookie("email", email); 
       if (request.getParameter("saveEmail") == null) {
-        cookie.setMaxAge(0);
+        cookie.setMaxAge(0); 
       } else {
         cookie.setMaxAge(60 * 60 * 24 * 7); // 7일
       }
@@ -51,9 +51,13 @@ public class LoginController extends HttpServlet {
 
     } catch (Exception e) {
       request.setAttribute("exception", e);
-      request.getRequestDispatcher("/error.jsp").forward(request, response);
+      request.getRequestDispatcher("/error.jsp").forward(request, response); 
     }
   }
 }
+
+
+
+
 
 

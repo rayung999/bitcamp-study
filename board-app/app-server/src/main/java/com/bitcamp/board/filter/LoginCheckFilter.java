@@ -37,14 +37,15 @@ public class LoginCheckFilter implements Filter {
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
     // 요청 URL에서 서블릿 경로만 추출한다.
-    // 예) 요청 URL : http://localhost:8888/app/board/add?title=aaa&content=bbb
-    // 서블릿 경로: /board/add <== 웹 애플리케이션 경로는 뺀다.
+    // 예) 요청 URL   : http://localhost:8888/app/board/add?title=aaa&content=bbb
+    //     서블릿 경로: /board/add  <== 웹 애플리케이션 경로는 뺀다.
     String servletPath = httpRequest.getServletPath();
-    // System.out.println(servletPath);
+    //    System.out.println(servletPath);
 
     // 콘텐트를 등록,변경,삭제하는 경우 로그인 여부를 검사한다.
-    if (servletPath.endsWith("add") || servletPath.endsWith("update")
-        || servletPath.endsWith("delete")) {
+    if (servletPath.endsWith("add") ||
+        servletPath.endsWith("update") ||
+        servletPath.endsWith("delete")) {
 
       Member loginMember = (Member) httpRequest.getSession().getAttribute("loginMember");
       if (loginMember == null) { // 로그인 하지 않았다면
@@ -60,5 +61,11 @@ public class LoginCheckFilter implements Filter {
   }
 
 }
+
+
+
+
+
+
 
 

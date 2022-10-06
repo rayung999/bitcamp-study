@@ -27,10 +27,10 @@ public class BoardFileDeleteController extends HttpServlet {
       throws ServletException, IOException {
     try {
       int no = Integer.parseInt(request.getParameter("no"));
-      AttachedFile attachedFile = boardService.getAttachedFile(no);
+      AttachedFile attachedFile = boardService.getAttachedFile(no); 
 
       Member loginMember = (Member) request.getSession().getAttribute("loginMember");
-      Board board = boardService.get(attachedFile.getBoardNo());
+      Board board = boardService.get(attachedFile.getBoardNo()); 
 
       if (board.getWriter().getNo() != loginMember.getNo()) {
         throw new Exception("게시글 작성자가 아닙니다.");
@@ -48,5 +48,9 @@ public class BoardFileDeleteController extends HttpServlet {
     }
   }
 }
+
+
+
+
 
 
