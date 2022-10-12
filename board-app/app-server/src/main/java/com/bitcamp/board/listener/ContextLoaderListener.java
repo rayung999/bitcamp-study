@@ -14,6 +14,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import com.bitcamp.board.config.AppConfig;
+import com.bitcamp.board.filter.AdminCheckFilter;
+import com.bitcamp.board.filter.LoginCheckFilter;
 
 // 웹애플리케이션이 시작되었을 때 공유할 자원을 준비시키거나 해제하는 일을 한다.
 //
@@ -49,7 +51,19 @@ public class ContextLoaderListener implements ServletContextListener {
           false, 
           "DispatcherServlet");
 
+      AdminCheckFilter adminFilter = new AdminCheckFilter();
+      FilterRegistration.Dynamic adminFilterConfig = ctx.addFilter("AdminCheckFilter", adminFilter);
+      adminFilterConfig.addMappingForUrlPatterns(
+          EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE), 
+          false, 
+          "/service/member/*");
 
+      LoginCheckFilter loginFilter = new LoginCheckFilter();
+      FilterRegistration.Dynamic loginFilterConfig = ctx.addFilter("LoginCheckFilter", loginFilter);
+      loginFilterConfig.addMappingForUrlPatterns(
+          EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE), 
+          false, 
+          "/service/*");
 
     } catch (Exception e) {
       e.printStackTrace();
