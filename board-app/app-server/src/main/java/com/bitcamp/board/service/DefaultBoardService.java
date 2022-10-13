@@ -26,11 +26,11 @@ public class DefaultBoardService implements BoardService {
   public void add(Board board) throws Exception {
     // 트랜잭션 동작 방법을 정의한다.
     DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-    // explicitly setting the transaction name is something that can be done only programmatically
-    def.setName("SomeTxName");
+    def.setName("tx1");
     def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
     TransactionStatus status = txManager.getTransaction(def);
+
     try {
       // 1) 게시글 등록
       if (boardDao.insert(board) == 0) {
@@ -51,8 +51,7 @@ public class DefaultBoardService implements BoardService {
   public boolean update(Board board) throws Exception {
     // 트랜잭션 동작 방법을 정의한다.
     DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-    // explicitly setting the transaction name is something that can be done only programmatically
-    def.setName("SomeTxName");
+    def.setName("tx1");
     def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
     TransactionStatus status = txManager.getTransaction(def);
@@ -88,11 +87,11 @@ public class DefaultBoardService implements BoardService {
   public boolean delete(int no) throws Exception {
     // 트랜잭션 동작 방법을 정의한다.
     DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-    // explicitly setting the transaction name is something that can be done only programmatically
-    def.setName("SomeTxName");
+    def.setName("tx1");
     def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
     TransactionStatus status = txManager.getTransaction(def);
+
     try {
       // 1) 첨부파일 삭제
       boardDao.deleteFiles(no);
