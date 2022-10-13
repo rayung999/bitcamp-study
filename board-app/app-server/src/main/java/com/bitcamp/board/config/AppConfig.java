@@ -1,6 +1,7 @@
 package com.bitcamp.board.config;
 
 import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -8,6 +9,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 //스프링 IoC 컨테이너의 설정을 수행하는 클래스
 //1) DB 커넥션 객체 관리자 준비 : DataSource
@@ -55,6 +59,16 @@ public class AppConfig {
   @Bean("multipartResolver")
   public MultipartResolver createMultipartResolver() {
     return new StandardServletMultipartResolver();
+  }
+
+  // Spring WebMVC의 기본 ViewResolver를 교체한다.
+  @Bean("viewResolver")
+  public ViewResolver createViewResolver() {
+    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+    viewResolver.setViewClass(JstlView.class); // 주어진 URL을 처리할 객체 => JSP를 실행시켜주는 객체
+    viewResolver.setPrefix("/WEB-INF/jsp/");
+    viewResolver.setSuffix(".jsp");
+    return viewResolver;
   }
 
 }
