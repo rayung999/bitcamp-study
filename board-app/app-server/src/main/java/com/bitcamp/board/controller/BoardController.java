@@ -123,6 +123,7 @@ public class BoardController {
       Board board,
       Part[] files,
       HttpSession session) throws Exception {
+
     board.setAttachedFiles(saveAttachedFiles(files));
 
     checkOwner(board.getNo(), session);
