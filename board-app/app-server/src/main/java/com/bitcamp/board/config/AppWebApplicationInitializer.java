@@ -5,24 +5,24 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.bitcamp.board.filter.AdminCheckFilter;
 import com.bitcamp.board.filter.LoginCheckFilter;
 
 // 서블릿 콘테이너 
 // ===> SpringServletContainerInitializer.onStartup() 호출
-//      ===> WebApplicationInitializer.onStartup() 호출
-//          ===> AbstractContextLoaderInitializer 구현체의 onStartup() 호출 
-//              ===> registerContextLoaderListner() 호출
-//                  ===> createRootApplicationContext() 호출
-//          ===> IoC 컨테이너, 프론트 컨트롤러, 필터 준비 
 // 
-public class AppWebApplicationInitializer extends AbstractDispatcherServletInitializer {
+public class AppWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-  // 수퍼클래스에서 ContextLoaderListner에서 사용할 Root IoC 컨테이너를 리턴한다.  
+  // 수퍼클래스에서 Root IoC 컨테이너를 만들어 준단다. 
+  // 그럼 우리가 해야 할 일은 그 컨테이너가 사용할 클래스 정보만 알려주면 된다.
+
+  @Override
+  protected Class<?>[] getRootConfigClasses() {
+    return null;
+  }
   @Override
   protected WebApplicationContext createRootApplicationContext() {
     return null; // 설정할 필요가 없다면 null을 리턴 
@@ -36,12 +36,8 @@ public class AppWebApplicationInitializer extends AbstractDispatcherServletIniti
 
   // 수퍼클래스에 DispatcherServlet을 준비할 때 사용할 IoC 컨테이너를 리턴한다.
   @Override
-  protected WebApplicationContext createServletApplicationContext() {
-    // 웹 관련 컴포넌트를 다룰 수 있는 기능이 포함된 스프링 IoC 컨테이너 준비
-    AnnotationConfigWebApplicationContext iocContainer = 
-        new AnnotationConfigWebApplicationContext();
-    iocContainer.register(AppConfig.class);
-    return iocContainer;
+  protected Class<?>[] getServletConfigClasses() {
+    return new Class<?>[] {AppConfig.class};
   }
 
   // 수퍼클래스에서 DispatcherServlet의 URL을 연결할 때 사용할 경로 리턴
