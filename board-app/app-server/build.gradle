@@ -1,8 +1,9 @@
 plugins {
     id 'application'
-    // id 'eclipse'  <-- eclipse-wtp 플러그인을 추가하면 eclipse 플러그인이 자동으로 추가된다.
-    id 'eclipse-wtp'
-    id 'war'
+    // id 'eclipse' <--eclipse-wtp에서 포함
+    
+    id 'eclipse-wtp' //웹 애플리케이션 관련 설정 파일을 추가로 생성
+    id 'war' // *.war 배포파일을 생
 }
 
 repositories {
@@ -16,36 +17,39 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.7'
     implementation 'org.reflections:reflections:0.10.2'
     
-    // 웹 애플리케이션에서 사용하는 자바 표준 웹 라이브러리
-    // - 단 개발할 때만 사용한다. 
-    // - 배포할 필요하는 없다. 왜? 톰캣 서버에 이미 존재한다.
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
-    
-    // JSTL 명세를 구현한 라이브러리
+    // JSTL 명세를 구현한 라이브러
     implementation 'javax.servlet:jstl:1.2'
     
-    // multipart/form-data 형식의 데이터를 처리하는 라이브러리
-    //implementation 'commons-fileupload:commons-fileupload:1.4'
+    // multipart/form-data 형식의 데이터를 처리하는 라이브러
+    // implementation 'commons-fileupload:commons-fileupload:1.4'
     
-    // Spring WebMVC 프레임워크
-    implementation 'org.springframework:spring-webmvc:5.3.23'
+    // 웹 애플리케이션에서 사용하는 자바 표준 웹 라이브러리
+    // 단, 개발할 때에만 사용한다. 배포할 필요는 없다.
+    // 왜? 톰캣버서에 이미 존재한다.
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     
-     // 프레임워크나 라이브러리 등에서 출력한믄 로그를 다루는 라이브러리 
-    implementation 'org.apache.logging.log4j:log4j-core:2.18.0'   
-    
-    // Spring IoC 컨테이너 라이브러리
-    // - spring-webmvc를 추가하면 자동으로 포함된다.
+    // spring context // Spring Ioc Container 
     // implementation 'org.springframework:spring-context:5.3.23'
     
-    // Spring JDBC 관련 라이브러리 
+    // spring-webmvc
+    implementation 'org.springframework:spring-webmvc:5.3.23'
+    
+    // spring jdbc
     implementation 'org.springframework:spring-jdbc:5.3.23'
     
-    //implementation project(':app-common')
+    // 프레임워크나 라이브러리 등에서 출력한믄 로그를 다루는 라이브러리 
+implementation 'org.apache.logging.log4j:log4j-core:2.18.0'    
+    // implementation project(':app-common')
+    
+    // Mybatis
+    implementation 'org.mybatis:mybatis:3.5.11'
+    // Mybatis를 SprinFramework에서 관리할 수 있도록 도와주는 클래스들
+    implementation 'org.mybatis:mybatis-spring:2.0.7'
     
 }
 
 application {
-    mainClass = 'com.bitcamp.board.MiniWebServer'
+    mainClass = 'com.bitcamp.board.App'
 }
 
 // CLI 환경(명령창, 콘솔창)에서 자바 소스를 컴파일 할 때 적용할 옵션
@@ -64,31 +68,34 @@ tasks.withType(JavaCompile) {
 // Eclipse IDE에서 사용할 프로젝트 정보 설정하기
 eclipse {
     project {
-        name = "board-app-server" 
+        name = "board-app-MiniWebServer" 
         // 프로젝트 이름을 지정하지 않으면 build.gradle 파일이 있는 
         // 폴더 이름을 프로젝트 이름을 사용한다.
     }
+    
+  
     jdt {
       sourceCompatibility = 11
       targetCompatibility = 11
       javaRuntimeName = "JavaSE-11"
     }
-    
-    // 이클립스IDE 웹 개발 도구에서 사용할 값을 설정한다.
+        // 자바 웹 개발 도구에서 사용할 값을 설정한다.
     wtp {
-        facet {// 웹 애플리케이션의 환경 정보 설정
-            // 웹 애플리케이션을 실행할 때 필요한 최소의 자바 버전 설정
-            facet name: 'jst.java', version: '11' 
-            
+        facet {//웹애플리케이션의 환경 정보 설정
+        // 웹 애플리케이션을 실행할 때 필요한 최소의 자바 버전 설
+            //you can add some extra wtp facets or update existing ones; mandatory keys: 'name', 'version':
+            facet name: 'jst.java', version: '11'
+
             // 웹 애플리케이션에서 사용할 서블릿 버전 설정
             facet name: 'jst.web', version: '4.0'
+
         }
         component {
             //you can configure the context path:
-            //contextPath = '/app'
+            //contextPath = '/web'
 
             //you can configure the deployName:
-            //deployName = 'app'
+            //deployName = 'web'
         }
     }
 }

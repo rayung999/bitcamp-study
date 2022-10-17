@@ -3,13 +3,11 @@ package com.bitcamp.board.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.bitcamp.board.domain.Member;
 import com.bitcamp.board.service.MemberService;
 
@@ -18,7 +16,9 @@ import com.bitcamp.board.service.MemberService;
 public class AuthController {
 
   MemberService memberService;
+
   public AuthController(MemberService memberService) {
+    System.out.println("AuthController() 호출됨!");
     this.memberService = memberService;
   }
 

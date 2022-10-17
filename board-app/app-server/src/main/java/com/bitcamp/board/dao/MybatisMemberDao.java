@@ -3,50 +3,34 @@ package com.bitcamp.board.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import com.bitcamp.board.domain.Member;
 
-//@Repository // DAO 역할을 수행하는 객체에 붙이는 애노테이션
-public class MariaDBMemberDao implements MemberDao {
+@Repository
+public class MybatisMemberDao implements MemberDao {
 
-  DataSource ds;
-
-  public MariaDBMemberDao(DataSource ds) {
-    System.out.println("MariaDBMemberDao() 호출됨!");
-    this.ds = ds;
-  }
+  @Autowired DataSource ds;
+  @Autowired SqlSessionFactory sqlSessionFactory;
 
   @Override
   public int insert(Member member) throws Exception {
-    try (PreparedStatement pstmt = ds.getConnection().prepareStatement(
-        "insert into app_member(name,email,pwd) values(?,?,sha2(?,256))")) {
-
-      pstmt.setString(1, member.getName());
-      pstmt.setString(2, member.getEmail());
-      pstmt.setString(3, member.getPassword());
-
-      return pstmt.executeUpdate();
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      return sqlSession.insert("MemberDao.insert", member);
     }
   }
 
   @Override
   public Member findByNo(int no) throws Exception {
 
-    try (PreparedStatement pstmt = ds.getConnection().prepareStatement(
-        "select mno,name,email,cdt from app_member where mno=" + no);
-        ResultSet rs = pstmt.executeQuery()) {
-
-      if (!rs.next()) {
-        return null;
-      }
-
-      Member member = new Member();
-      member.setNo(rs.getInt("mno"));
-      member.setName(rs.getString("name"));
-      member.setEmail(rs.getString("email"));
-      member.setCreatedDate(rs.getDate("cdt"));
-      return member;
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      return sqlSession.selectOne("MemberDao.findByNo", no);
     }
   }
 
@@ -122,24 +106,16 @@ public class MariaDBMemberDao implements MemberDao {
 
   @Override
   public Member findByEmailPassword(String email, String password) throws Exception {
-    try (PreparedStatement pstmt = ds.getConnection().prepareStatement(
-        "select mno,name,email,cdt from app_member where email=? and pwd=sha2(?,256)")) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
-      pstmt.setString(1, email);
-      pstmt.setString(2, password);
+      Map<String, Object> paramMap = new HashMap<>();
+      paramMap.put("email", email);
+      paramMap.put("password", password);
 
-      try (ResultSet rs = pstmt.executeQuery()) {
-        if (!rs.next()) {
-          return null;
-        }
-
-        Member member = new Member();
-        member.setNo(rs.getInt("mno"));
-        member.setName(rs.getString("name"));
-        member.setEmail(rs.getString("email"));
-        member.setCreatedDate(rs.getDate("cdt"));
-        return member;
-      }
+      return sqlSession.selectOne(
+          "MemberDao.findByEmailPassword", // SQL 문의 ID
+          paramMap // SQL문의 in-parametor(#{})에 들어갈 값을 담고 있는 객
+          );
     }
   }
 }
