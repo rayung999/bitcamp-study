@@ -3,17 +3,15 @@ package com.eomcs.web.javascript;
 import java.sql.Date;
 
 public class Board {
-
   int no;
   String title;
-  int viewCount;
+  String content;
   Date createdDate;
+  int viewCount;
 
-  public Board() {
-    // TODO Auto-generated constructor stub
-  }
+  public Board() {}
 
-  public Board(int no, String title,Date createdDate, int viewCount) {
+  public Board(int no, String title, Date createdDate, int viewCount) {
     this.no = no;
     this.title = title;
     this.createdDate = createdDate;
@@ -31,6 +29,12 @@ public class Board {
   }
   public void setTitle(String title) {
     this.title = title;
+  }
+  public String getContent() {
+    return content;
+  }
+  public void setContent(String content) {
+    this.content = content;
   }
   public Date getCreatedDate() {
     return createdDate;

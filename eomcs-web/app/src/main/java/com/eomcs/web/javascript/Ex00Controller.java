@@ -22,11 +22,12 @@ public class Ex00Controller {
   public Object exam08() {
     Board[] boards = new Board[] {
         new Board(1, "제목1", Date.valueOf("2022-10-27"), 100),
-        new Board(2, "제목2", Date.valueOf("2022-10-28"), 100),
-        new Board(3, "제목3", Date.valueOf("2022-10-29"), 100),
-        new Board(4, "제목4", Date.valueOf("2022-10-30"), 100),
-        new Board(5, "제목5", Date.valueOf("2022-10-31"), 100),
+        new Board(2, "제목2", Date.valueOf("2022-10-28"), 200),
+        new Board(3, "제목3", Date.valueOf("2022-10-29"), 110),
+        new Board(4, "제목4", Date.valueOf("2022-10-30"), 101),
+        new Board(5, "제목5", Date.valueOf("2022-10-31"), 108),
     };
     return boards; // 클라인트에 보내는 것은 UI가 아니라 데이터이다.
   }
+
 }
